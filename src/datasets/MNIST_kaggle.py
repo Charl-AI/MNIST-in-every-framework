@@ -69,7 +69,7 @@ class MNISTKaggleModule(pl.LightningDataModule):
 
     def setup(self, stage: Optional[str] = None):
         if stage == "fit" or stage is None:
-            data = MNISTKaggleModule(
+            data = MNISTKaggle(
                 data_dir=self.data_dir, train=True, transform=self.transform
             )
             n_val = int(len(data) * 0.2)
@@ -77,7 +77,7 @@ class MNISTKaggleModule(pl.LightningDataModule):
             self.train, self.val = random_split(data, [n_train, n_val])
 
         if stage == "test" or stage is None:
-            self.test = MNISTKaggleModule(
+            self.test = MNISTKaggle(
                 data_dir=self.data_dir, train=False, transform=self.transform
             )
 
