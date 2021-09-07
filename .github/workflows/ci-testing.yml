@@ -62,8 +62,8 @@ jobs:
       shell: bash
 
     - name: Lint with black
-        run: |
-          black --check src tests
+      run: |
+        black --check src tests
 
     - name: Tests
       run: |
