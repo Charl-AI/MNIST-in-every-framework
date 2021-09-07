@@ -50,6 +50,7 @@ notebook==6.4.3
 numpy==1.21.2
 oauthlib==3.1.1
 packaging==21.0
+pandas==1.3.2
 pandocfilters==1.4.3
 parso==0.8.2
 pathspec==0.9.0
@@ -57,7 +58,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 Pillow==8.3.2
 platformdirs==2.3.0
--e git+git@github.com:Charl-AI/Kaggle-Knowledge-Competitions.git@dc1a31a7cb0141d7028541844cc5daf8e36571a8#egg=project
+-e git+git@github.com:Charl-AI/Kaggle-Knowledge-Competitions.git@d4b82de799654a066d4a6dbb0ee1b39f7c8e5390#egg=project
 prometheus-client==0.11.0
 prompt-toolkit==3.0.20
 protobuf==3.17.3
@@ -72,6 +73,7 @@ pyrsistent==0.18.0
 python-dateutil==2.8.2
 python-slugify==5.0.2
 pytorch-lightning==1.4.5
+pytz==2021.1
 PyYAML==5.4.1
 pyzmq==22.2.1
 qtconsole==5.1.1
