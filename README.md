@@ -5,7 +5,7 @@ Checklist for starting project:
 * [x] Update setup.py
 * [x] Update README (readme driven development)
 
-* [ ] Perform EDA and update first cell of notebook
+* [x] Perform EDA and update first cell of notebook
 * [ ] (Optional) Create proof of concept in notebook (using toy data etc...)
 * [ ] Create datamodule (example one for testing is fine)
 * [ ] Create lightningmodule (basic one for testing is fine)
@@ -14,7 +14,7 @@ Checklist for starting project:
 
 <div align="center">
 
-# TITLE
+# Kaggle Knowledge Competitions
 
 [![Competitions](http://img.shields.io/badge/Kaggle-Competitions-4b44ce.svg)](https://www.kaggle.com/competitions)
 [![Blog Post](http://img.shields.io/badge/Blog-Post-4b44ce.svg)](https://charl-ai.github.io/)
@@ -62,6 +62,12 @@ source venv/bin/activate
 pip install -e .
 pip install -r requirements.txt
 ```
+
+Install MNIST data from Kaggle API using:
+```bash
+kaggle competitions download -c digit-recognizer
+```
+You can then unzip the data and move it to the ```data/mnist_kaggle``` directory
 
 ## Running
 
