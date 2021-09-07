@@ -55,6 +55,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        pip install --requirement requirements.txt --quiet --use-feature=2020-resolver
         pip install --requirement tests/requirements.txt --quiet --use-feature=2020-resolver
         python --version
         pip --version
