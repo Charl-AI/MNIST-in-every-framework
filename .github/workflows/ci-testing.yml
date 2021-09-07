@@ -4,9 +4,9 @@ name: CI testing
 on:
   # Trigger the workflow on pull request, but only for the master branch
   # We don't trigger on push, because it should be protected by default
-  #  push:
-  #  branches:
-  #    - master
+  push:
+    branches:
+      - master
 
   pull_request:
     branches:
