@@ -5,7 +5,7 @@ Checklist for starting project:
 * [x] Update setup.py
 * [x] Update README (readme driven development)
 
-* [ ] Perform EDA and update first cell of notebook
+* [x] Perform EDA and update first cell of notebook
 * [ ] (Optional) Create proof of concept in notebook (using toy data etc...)
 * [ ] Create datamodule (example one for testing is fine)
 * [ ] Create lightningmodule (basic one for testing is fine)
@@ -67,7 +67,7 @@ Install MNIST data from Kaggle API using:
 ```bash
 kaggle competitions download -c digit-recognizer
 ```
-You can then unzip the data and move it to the ```data/``` directory
+You can then unzip the data and move it to the ```data/mnist_kaggle``` directory
 
 ## Running
 
