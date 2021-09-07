@@ -16,9 +16,8 @@ Checklist for starting project:
 
 # TITLE
 
-[![Competitions](http://img.shields.io/badge/Kaggle-4b44ce.svg)](https://www.kaggle.com/competitions)
-
-[![Blog Post](http://img.shields.io/badge/Kaggle-4b44ce.svg)](https://charl-ai.github.io/)
+[![Competitions](http://img.shields.io/badge/Kaggle-Competitions-4b44ce.svg)](https://www.kaggle.com/competitions)
+[![Blog Post](http://img.shields.io/badge/Blog-Post-4b44ce.svg)](https://charl-ai.github.io/)
 
 <!--
 ARXIV
