@@ -1,9 +1,9 @@
 Checklist for starting project:
 
-* [ ] Create First Working Version Milestone (accomplished when this checklist is complete)
-* [ ] Add custom issue labels (for example severity of issue, (more) issue types, and staus of issue (abandoned, in progress, etc.)
-* [ ] Update setup.py
-* [ ] Update README (readme driven development)
+* [x] Create First Working Competition Milestone (accomplished when this checklist is complete)
+* [ N/A ] Add custom issue labels (for example severity of issue, (more) issue types, and staus of issue (abandoned, in progress, etc.)
+* [x] Update setup.py
+* [x] Update README (readme driven development)
 
 * [ ] Perform EDA and update first cell of notebook
 * [ ] (Optional) Create proof of concept in notebook (using toy data etc...)
