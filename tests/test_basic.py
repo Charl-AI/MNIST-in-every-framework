@@ -1,0 +1,3 @@
+def test_example():
+    # this test isn't very useful...
+    assert True
