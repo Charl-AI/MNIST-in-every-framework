@@ -63,7 +63,6 @@ pickleshare==0.7.5
 Pillow==8.3.2
 platformdirs==2.3.0
 pluggy==1.0.0
--e git+git@github.com:Charl-AI/Kaggle-Knowledge-Competitions.git@7822d57470ea0136de0a2b8b1f5c70c2821a7ca7#egg=project
 prometheus-client==0.11.0
 prompt-toolkit==3.0.20
 protobuf==3.17.3
