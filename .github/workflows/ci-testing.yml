@@ -7,7 +7,7 @@ on:
   #  push:
   #  branches:
   #    - master
-  
+
   pull_request:
     branches:
       - master
@@ -60,6 +60,10 @@ jobs:
         pip --version
         pip list
       shell: bash
+
+    - name: Lint with black
+        run: |
+          black --check src tests
 
     - name: Tests
       run: |
