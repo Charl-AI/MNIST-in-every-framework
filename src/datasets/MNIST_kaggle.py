@@ -27,7 +27,7 @@ class MNISTKaggle(Dataset):
 
         if self.train:
             df = pd.read_csv(data_dir + "/train.csv")
-            self.labels = torch.Tensor(df["label"].values)
+            self.labels = torch.Tensor(df["label"].values).long()
             self.imgs = df.drop(labels="label", axis=1)
             self.imgs = torch.Tensor(self.imgs.values)
 
