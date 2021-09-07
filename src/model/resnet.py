@@ -20,12 +20,14 @@ class _MNISTResNet(ResNet):
 class MNISTResNetModule(pl.LightningModule):
     """LightningModule implementation of a ResNet for MNIST"""
 
-    def __init__(self, lr: float = 0.01):
+    def __init__(self, lr: float = 0.01, **kwargs):
+        super().__init__()
+        self.save_hyperparameters()
         self.lr = lr
 
-        self.net = _MNISTResNet()
         self.train_accuracy = torchmetrics.Accuracy()
         self.valid_accuracy = torchmetrics.Accuracy()
+        self.net = _MNISTResNet()
 
     def forward(self, x):
         return self.net(x)
