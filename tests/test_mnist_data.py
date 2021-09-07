@@ -17,5 +17,5 @@ def test_mnist_datamodule():
     assert batch[0].shape == (2, 1, 28, 28)
 
 
-def remote_test():
+def test_remote():
     assert True
