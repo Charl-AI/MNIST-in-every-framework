@@ -1,9 +1,9 @@
 Checklist for starting project:
 
-* [ ] Create First Working Version Milestone (accomplished when this checklist is complete)
-* [ ] Add custom issue labels (for example severity of issue, (more) issue types, and staus of issue (abandoned, in progress, etc.)
-* [ ] Update setup.py
-* [ ] Update README (readme driven development)
+* [x] Create First Working Competition Milestone (accomplished when this checklist is complete)
+* [ N/A ] Add custom issue labels (for example severity of issue, (more) issue types, and staus of issue (abandoned, in progress, etc.)
+* [x] Update setup.py
+* [x] Update README (readme driven development)
 
 * [ ] Perform EDA and update first cell of notebook
 * [ ] (Optional) Create proof of concept in notebook (using toy data etc...)
@@ -16,10 +16,7 @@ Checklist for starting project:
 
 # TITLE
 
-[![Paper](http://img.shields.io/badge/paper-arxiv.1001.2234-B31B1B.svg)](https://www.nature.com/articles/nature14539)
-[![Conference](http://img.shields.io/badge/NeurIPS-2019-4b44ce.svg)](https://papers.nips.cc/book/advances-in-neural-information-processing-systems-31-2018)
-[![Conference](http://img.shields.io/badge/ICLR-2019-4b44ce.svg)](https://papers.nips.cc/book/advances-in-neural-information-processing-systems-31-2018)
-[![Conference](http://img.shields.io/badge/AnyConference-year-4b44ce.svg)](https://papers.nips.cc/book/advances-in-neural-information-processing-systems-31-2018)
+[![Competitions](http://img.shields.io/badge/Kaggle-4b44ce.svg)](https://www.kaggle.com/competitions)
 <!--
 ARXIV
 [![Paper](http://img.shields.io/badge/arxiv-math.co:1480.1111-B31B1B.svg)](https://www.nature.com/articles/nature14539)
@@ -33,9 +30,15 @@ Conference
 </div>
 
 ## Description
-What it does
+This project solves the three Kaggle knowledge competitions using Pytorch Lightning. It is both an introduction to Kaggle and an introduction to lightning.
 
-This project uses PytorchLightning to organise the codebase and provide some useful abstractions.
+### 1. MNIST digit recogniser
+
+
+### 2. House price regression
+
+
+### 3. Titanic survival prediction
 
 
 ## Installation
@@ -60,20 +63,17 @@ pip install -r requirements.txt
 
 ## Running
 
-For training, run:
+For training the models, run:
 
 ```bash
 python src/train.py
 ```
+You can use the ```model_name``` flag to determine which model you want to train, with options for each of the competitions:
 
-For options, run `python src/train.py --help` to show arguments you can pass from the command line.
+```bash
+--mnist
+--prices
+--titanic
+```
 
-### Citation
-```
-@article{YourName,
-  title={Your Title},
-  author={Your team},
-  journal={Location},
-  year={Year}
-}
-```
+For more options, run `python src/train.py --help` to show arguments you can pass from the command line.
