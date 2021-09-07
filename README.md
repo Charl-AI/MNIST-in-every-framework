@@ -17,11 +17,14 @@ Checklist for starting project:
 # TITLE
 
 [![Competitions](http://img.shields.io/badge/Kaggle-4b44ce.svg)](https://www.kaggle.com/competitions)
+
+[![Blog Post](http://img.shields.io/badge/Kaggle-4b44ce.svg)](https://charl-ai.github.io/)
+
 <!--
 ARXIV
 [![Paper](http://img.shields.io/badge/arxiv-math.co:1480.1111-B31B1B.svg)](https://www.nature.com/articles/nature14539)
 -->
-![CI testing](https://github.com/PyTorchLightning/deep-learning-project-template/workflows/CI%20testing/badge.svg?branch=master&event=push)
+![CI testing](https://github.com/PyTorchLightning/deep-learning-project-template/workflows/CI%20testing/badge.svg?branch=master&event=pull_request)
 
 
 <!--
