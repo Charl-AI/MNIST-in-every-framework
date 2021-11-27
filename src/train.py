@@ -32,7 +32,7 @@ def main(args):
         # Get name of project root. Assumes structure of root/src/train.py
         root_name = os.path.basename(Path(__file__).resolve().parent.parent)
 
-        logger = WandbLogger(log_model=False, project=f"{root_name}-logs")
+        logger = WandbLogger(log_model=True, project=f"{root_name}-logs")
         logger.watch(model)
 
         callbacks.extend(
