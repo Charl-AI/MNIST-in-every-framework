@@ -37,7 +37,7 @@ def main(args):
 
         callbacks.extend(
             [
-                WandbImageClassificationCallback(num_samples=32),
+                WandbImageClassificationCallback(data, num_samples=32),
             ]
         )
     else:
