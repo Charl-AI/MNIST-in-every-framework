@@ -2,23 +2,29 @@
 
 # Kaggle-Knowledge-Competitions
 
-<!-- [![Paper](http://img.shields.io/badge/paper-arxiv.0000.0000-B31B1B.svg)](https://www.nature.com/articles/nature14539) -->
-<!-- [![Conference](http://img.shields.io/badge/NeurIPS-20XX-4b44ce.svg)](https://papers.nips.cc/book/advances-in-neural-information-processing-systems-31-2018) -->
-<!-- [![Blog](http://img.shields.io/badge/Blog-NameofPost-c044ce.svg)](https://charl-ai.github.io/) -->
-<!-- [![Kaggle](http://img.shields.io/badge/Kaggle-CompetitionName-44c5ce.svg)](https://www.kaggle.com/competitions) -->
+[![Kaggle](http://img.shields.io/badge/Kaggle-CompetitionName-44c5ce.svg)](https://www.kaggle.com/competitions)
+[![Blog](http://img.shields.io/badge/Blog-NameofPost-c044ce.svg)](https://charl-ai.github.io/)
 
 </div>
 
 ## Executive Summary
-This project solves the three Kaggle knowledge competitions using Pytorch Lightning. It is both an introduction to Kaggle and an introduction to lightning.
+This project solves Kaggle 'knowledge' competitions using Pytorch Lightning. These competitions are gentle introductions to different areas in machine learning and data science; this repository is both an introduction to Kaggle and an introduction to lightning. It's worth noting that these competitions seem to suffer from overfitting on the public leaderboards (for example, the MNIST competition has submissions with 100% accuracy!). I am not particularly interested in this extreme game of tuning/overfitting, so this repository will use standard methods that can give decent and robust results out of the box.
 
 ### 1. MNIST digit recogniser
-We use a standard ResNet
+We use a standard ResNet50 to perform image classification. The model gets 0.98246 accuracy on the test set after training for 5 epochs with the default arguments. This is pretty good, and you could probably push the accuracy higher with some more tuning.
 
 ### 2. House price regression
-
+TODO
 
 ### 3. Titanic survival prediction
+TODO
+
+### 4. Flower Classification
+TODO
+
+### 5. Tweet NLP
+TODO
+
 
 This project uses [Pytorch Lightning](https://pytorch-lightning.readthedocs.io/en/latest/) to organise the codebase and provide some useful abstractions.
 
@@ -78,16 +84,10 @@ This will give a list of command line arguments you can use in the program - e.g
 This project integrates with [Weights and Biases](https://wandb.ai/site) for logging and it is strongly recommended to use it (it's free!). By default, including the ```--logger True``` flag in the CLI will use Weights and Biases.
 When using Weights and Biases on a new machine, run ```wandb login``` in the terminal, and paste the API key from your weights and biases account when prompted to set it up.
 
-## Inference and visualisation
+## Inference, visualisation, submission
 
-We use notebooks for inference and visualisation to improve readability. These can be found in ```src/experiments/```.
-
-<!-- ## Citation -->
-<!-- ``` -->
-<!-- @article{YourName, -->
-  <!-- title={Your Title}, -->
-  <!-- author={Your team}, -->
-  <!-- journal={Location}, -->
-  <!-- year={Year} -->
-<!-- } -->
-<!-- ``` -->
+We use notebooks for inference and visualisation to improve readability. These can be found in ```src/experiments/```. These notebooks will demonstrate how to use the trained models for prediction on the test dataset. Submission can be done through the kaggle API, for example:
+```bash
+# submits preds.csv to the mnist classification competition
+kaggle competitions submit -c digit-recognizer -f data/kaggle_mnist/preds.csv --message first_submission_with_api
+```
