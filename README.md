@@ -8,6 +8,7 @@
 </div>
 
 ## Executive Summary
+
 This project solves Kaggle 'knowledge' competitions using Pytorch Lightning. These competitions are gentle introductions to different areas in machine learning and data science; this repository is both an introduction to Kaggle and an introduction to lightning. It's worth noting that these competitions seem to suffer from overfitting on the public leaderboards (for example, the MNIST competition has submissions with 100% accuracy!). I am not particularly interested in this extreme game of tuning/overfitting, so this repository will use standard methods that can give decent and robust results out of the box.
 
 ### 1. MNIST digit recogniser
@@ -29,6 +30,7 @@ TODO
 This project uses [Pytorch Lightning](https://pytorch-lightning.readthedocs.io/en/latest/) to organise the codebase and provide some useful abstractions.
 
 ## Installation
+
 Note: this project has been developed and tested on Ubuntu. The project may run on other platforms, however, this is not guaranteed. If you do not have an Ubuntu machine, consider using WSL.
 
 It is recommended to clone the repo with the GitHub CLI:
@@ -56,6 +58,7 @@ pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu
 ```
 
 ## Data
+
 The data used in this project is downloadable through the Kaggle API. By default, all models expect the data to be located in ```data/```, but this can be tweaked with the data_dir command line argument. To download the data using the Kaggle API, first ensure you have your Kaggle API key stored in ```~/.kaggle/kaggle.json```, then run the following:
 
 ```bash
@@ -73,13 +76,10 @@ unzip kaggle_mnist/digit-recognizer.zip -d kaggle_mnist
 
 ## Training
 
-For training, show available options by running:
+For training, show available options by using the ```--help``` argument with the training scripts. This will give a list of command line arguments you can use in the program. Pre-trained models are not provided in this repository due to their large size, but they can be easily reproduced by running the training scripts with the following arguments:
+### 1. MNIST digit reogniser
+```src/train_digit_classifier.py --gpus 1 --max_epochs 5 --precision 16```
 
-```bash
-python src/train.py --help
-```
-
-This will give a list of command line arguments you can use in the program - e.g. ```python src/train.py --max_epochs 50 --batch_size 8 --log_every_n_steps 5 --learning_rate 0.01```.
 
 This project integrates with [Weights and Biases](https://wandb.ai/site) for logging and it is strongly recommended to use it (it's free!). By default, including the ```--logger True``` flag in the CLI will use Weights and Biases.
 When using Weights and Biases on a new machine, run ```wandb login``` in the terminal, and paste the API key from your weights and biases account when prompted to set it up.
