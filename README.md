@@ -50,7 +50,19 @@ pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu
 ```
 
 ## Data
-The data used in the default example is the standard MNIST dataset. It will download automatically to ```data/``` by default.
+The data used in this project is downloadable through the Kaggle API. By default, all models expect the data to be located in ```data/```, but this can be tweaked with the data_dir command line argument. To download the data using the Kaggle API, first ensure you have your Kaggle API key stored in ```~/.kaggle/kaggle.json```, then run the following:
+
+```bash
+# create and enter data directory
+mkdir data
+cd data
+
+# download datasets
+kaggle competitions download -p kaggle_mnist -c digit-recognizer
+
+# prepare datasets
+unzip kaggle_mnist/digit-recognizer.zip -d kaggle_mnist
+```
 
 
 ## Training
