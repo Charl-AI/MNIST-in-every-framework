@@ -1,33 +1,61 @@
+import os
 from argparse import ArgumentParser
+from pathlib import Path
 
 import pytorch_lightning as pl
-from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.utilities.seed import seed_everything
 
-# import lightning module
-# import datamodule
+from datasets.kaggle_mnist import KaggleMNISTDataModule
+from models.mnist_classifier import MNISTClassifierModule
+from visualisation.wandb_callbacks.image_classification_callback import (
+    WandbImageClassificationCallback,
+)
 
-seed_everything(1)
+# dataloader workers get different seeds to prevent augmentations being repeated
+seed_everything(1, workers=True)
 
 
 def main(args):
 
-    logger = TensorBoardLogger("runs")
+    model = MNISTClassifierModule(lr=args.learning_rate)
+    data = KaggleMNISTDataModule(
+        data_dir=args.data_dir,
+        batch_size=args.batch_size,
+        num_workers=args.num_workers,
+        drop_last=args.drop_last,
+    )
 
-    dict_args = vars(args)
+    callbacks = []
 
-    model = LightningModule(**dict_args)
+    if args.logger:
+        # Get name of project root. Assumes structure of root/src/train.py
+        root_name = os.path.basename(Path(__file__).resolve().parent.parent)
 
-    data = DataModule(batch_size=2)
+        logger = WandbLogger(log_model=False, project=f"{root_name}-logs")
+        logger.watch(model)
 
-    trainer = pl.Trainer.from_argparse_args(args)
+        callbacks.extend(
+            [
+                WandbImageClassificationCallback(num_samples=32),
+            ]
+        )
+    else:
+        logger = False
+
+    trainer = pl.Trainer.from_argparse_args(
+        args,
+        logger=logger,
+        callbacks=callbacks,
+    )
     trainer.fit(model, data)
 
 
 if __name__ == "__main__":
 
     parser = ArgumentParser()
-    parser = LightningModule.add_model_specific_args(parser)
+    parser = MNISTClassifierModule.add_argparse_args(parser)
+    parser = KaggleMNISTDataModule.add_argparse_args(parser)
     parser = pl.Trainer.add_argparse_args(parser)
     args = parser.parse_args()
 
