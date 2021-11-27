@@ -1,24 +1,26 @@
-import pytorch_lightning as pl
-from torch.utils.data import Dataset, DataLoader, random_split
+import os
 from typing import Optional
+
 import pandas as pd
+import pytorch_lightning as pl
 import torch
+from torch.utils.data import DataLoader, Dataset, random_split
 
 
-class MNISTKaggle(Dataset):
+class KaggleMNIST(Dataset):
     """Dataset class for MNIST downloaded from Kaggle API"""
 
     def __init__(
         self,
-        data_dir: str = r"data/mnist_kaggle",
-        train: bool = True,
+        data_dir: str,
+        train: bool,
         transform: Optional[callable] = None,
     ) -> None:
         """
         Args:
             data_dir: path to the data directory
             train: returns training dataset when true, testing set when False
-            transform: optional transforms to apply to training data. Not advised for MNIST.
+            transform: optional transforms to apply. Not advised for MNIST.
         """
 
         self.data_dir = data_dir
@@ -26,13 +28,13 @@ class MNISTKaggle(Dataset):
         self.train = train
 
         if self.train:
-            df = pd.read_csv(data_dir + "/train.csv")
+            df = pd.read_csv(os.path.join(data_dir, "train.csv"))
             self.labels = torch.Tensor(df["label"].values)
             self.imgs = df.drop(labels="label", axis=1)
             self.imgs = torch.Tensor(self.imgs.values)
 
         else:
-            df = pd.read_csv(data_dir + "/test.csv")
+            df = pd.read_csv(os.path.join(data_dir, "test.csv"))
             self.imgs = torch.Tensor(df.values)
 
         self.imgs = self.imgs.unflatten(dim=1, sizes=(28, 28))
@@ -54,22 +56,32 @@ class MNISTKaggle(Dataset):
         return img
 
 
-class MNISTKaggleModule(pl.LightningDataModule):
-    """DataModule for MNIST downloaded from kaggle API."""
+class KaggleMNISTDataModule(pl.LightningDataModule):
+    """DataModule for MNIST downloaded from kaggle API.
+    Splits the labelled data with an 80:20 train:val
+    split. Test data is unlabelled."""
 
     def __init__(
-        self, data_dir: str = r"data/mnist_kaggle", batch_size: int = 32
+        self,
+        data_dir: str,
+        batch_size: int,
+        num_workers: int,
+        drop_last: bool,
     ) -> None:
         super().__init__()
+        self.save_hyperparameters()
+
         self.data_dir = data_dir
         self.batch_size = batch_size
-        self.transform = None
+        self.num_workers = num_workers
+        self.drop_last = drop_last
 
+        self.transform = None
         self.dims = (1, 28, 28)
 
     def setup(self, stage: Optional[str] = None):
         if stage == "fit" or stage is None:
-            data = MNISTKaggle(
+            data = KaggleMNIST(
                 data_dir=self.data_dir, train=True, transform=self.transform
             )
             n_val = int(len(data) * 0.2)
@@ -77,15 +89,60 @@ class MNISTKaggleModule(pl.LightningDataModule):
             self.train, self.val = random_split(data, [n_train, n_val])
 
         if stage == "test" or stage is None:
-            self.test = MNISTKaggle(
+            self.test = KaggleMNIST(
                 data_dir=self.data_dir, train=False, transform=self.transform
             )
 
     def train_dataloader(self):
-        return DataLoader(self.train, batch_size=self.batch_size)
+        return DataLoader(
+            self.train,
+            shuffle=True,
+            batch_size=self.batch_size,
+            num_workers=self.num_workers,
+            drop_last=self.drop_last,
+        )
 
     def val_dataloader(self):
-        return DataLoader(self.val, batch_size=self.batch_size)
+        return DataLoader(
+            self.val,
+            batch_size=self.batch_size,
+            num_workers=self.num_workers,
+            drop_last=self.drop_last,
+        )
 
     def test_dataloader(self):
-        return DataLoader(self.test, batch_size=self.batch_size)
+        return DataLoader(
+            self.test,
+            batch_size=self.batch_size,
+            num_workers=self.num_workers,
+            drop_last=self.drop_last,
+        )
+
+    @classmethod
+    def add_argparse_args(cls, parent_parser):
+        parser = parent_parser.add_argument_group(cls.__name__)
+        parser.add_argument(
+            "--data_dir",
+            help="directory containing test.csv and train.csv",
+            type=str,
+            default="data/kaggle_mnist",
+        )
+        parser.add_argument(
+            "--batch_size",
+            help="batch size",
+            type=int,
+            default=50,
+        )
+        parser.add_argument(
+            "--num_workers",
+            help="number of dataloader workers. 4*num_gpus is usually fine",
+            type=int,
+            default=4,
+        )
+        parser.add_argument(
+            "--drop_last",
+            help="whether to drop last batch from dataloader to keep batch sizes constant",
+            type=bool,
+            default=False,
+        )
+        return parent_parser
