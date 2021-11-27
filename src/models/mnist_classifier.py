@@ -43,6 +43,9 @@ class MNISTClassifierModule(pl.LightningModule):
         self.log("validation/accuracy", outs["accuracy"])
         self.log("validation/loss", outs["loss"])
 
+    def predict_step(self, batch, batch_idx, dataloader_idx=0):
+        return torch.argmax(self(batch), dim=1)
+
     def configure_optimizers(self):
         return torch.optim.SGD(self.parameters(), lr=self.lr)
 
