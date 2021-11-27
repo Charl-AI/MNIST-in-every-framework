@@ -21,8 +21,8 @@ class MNISTClassifierModule(pl.LightningModule):
     def _step(self, batch, batch_idx):
         imgs, targets = batch
         logits = self(imgs)
-        loss = F.cross_entropy(logits, targets)
-        accuracy = TF.accuracy(logits, targets)
+        loss = F.cross_entropy(logits, targets.long())
+        accuracy = TF.accuracy(logits, targets.int())
 
         return {
             "loss": loss,
