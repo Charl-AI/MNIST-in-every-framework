@@ -99,18 +99,14 @@ class KaggleMNISTDataModule(pl.LightningDataModule):
         self.dims = (1, 28, 28)
 
     def setup(self, stage: Optional[str] = None):
-        if stage == "fit" or stage is None:
-            data = KaggleMNIST(
-                data_dir=self.data_dir, train=True, transform=self.transform
-            )
-            n_val = int(len(data) * 0.2)
-            n_train = len(data) - n_val
-            self.train, self.val = random_split(data, [n_train, n_val])
+        data = KaggleMNIST(data_dir=self.data_dir, train=True, transform=self.transform)
+        n_val = int(len(data) * 0.2)
+        n_train = len(data) - n_val
+        self.train, self.val = random_split(data, [n_train, n_val])
 
-        if stage == "test" or stage is None:
-            self.test = KaggleMNIST(
-                data_dir=self.data_dir, train=False, transform=self.transform
-            )
+        self.test = KaggleMNIST(
+            data_dir=self.data_dir, train=False, transform=self.transform
+        )
 
     def train_dataloader(self):
         return DataLoader(
