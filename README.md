@@ -73,12 +73,9 @@ kaggle competitions download -p kaggle_mnist -c digit-recognizer
 unzip kaggle_mnist/digit-recognizer.zip -d kaggle_mnist
 ```
 
-
 ## Training
 
-For training, show available options by using the ```--help``` argument with the training scripts. This will give a list of command line arguments you can use in the program. Pre-trained models are not provided in this repository due to their large size, but they can be easily reproduced by running the training scripts with the following arguments:
-### 1. MNIST digit reogniser
-```src/train_digit_classifier.py --gpus 1 --max_epochs 5 --precision 16```
+The notebooks in ```src/experiments/``` contain all necessary code for training the final models. There are also training scripts with a CLI for training models directly - these are mostly useful for playing with hyperparameters. Show available options by using the ```--help``` argument with the training scripts. This will give a list of command line arguments you can use in the program. Pre-trained models are not provided in this repository due to their large size, but they can be easily reproduced by either running the notebooks or training scripts (with the appropriate hyperparameters).
 
 
 This project integrates with [Weights and Biases](https://wandb.ai/site) for logging and it is strongly recommended to use it (it's free!). By default, including the ```--logger True``` flag in the CLI will use Weights and Biases.
