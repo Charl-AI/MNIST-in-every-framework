@@ -5,6 +5,7 @@ import pandas as pd
 import pytorch_lightning as pl
 import torch
 from torch.utils.data import DataLoader, Dataset, random_split
+from pytorch_lightning.utilities.argparse import add_argparse_args
 
 
 class KaggleMNIST(Dataset):
@@ -59,15 +60,33 @@ class KaggleMNIST(Dataset):
 class KaggleMNISTDataModule(pl.LightningDataModule):
     """DataModule for MNIST downloaded from kaggle API.
     Splits the labelled data with an 80:20 train:val
-    split. Test data is unlabelled."""
+    split. Test data is unlabelled.
+
+    For using with the CLI, use:
+    parser = KaggleMNISTDataModule.add_argparse_args(),
+    then use:
+    data = KaggleMNISTDataModule.from_argparse_args(args)
+
+    Both methods come from the parent class, the add_argparse_args method
+    uses the arguments from __init__ and the docstring to create the
+    argument group.
+    """
 
     def __init__(
         self,
-        data_dir: str,
-        batch_size: int,
-        num_workers: int,
-        drop_last: bool,
+        data_dir: str = "data/kaggle_mnist",
+        batch_size: int = 50,
+        num_workers: int = 4,
+        drop_last: bool = False,
     ) -> None:
+        """
+        Args:
+            data_dir: path to the data directory
+            batch_size: batch size for dataloaders
+            num_workers: number of workers for dataloaders, usually 4*num GPUs is fine,
+                set to zero if you find a memory leak.
+            drop_last: whether to drop the last batch to keep batch sizes constant
+        """
         super().__init__()
         self.save_hyperparameters()
 
@@ -117,32 +136,3 @@ class KaggleMNISTDataModule(pl.LightningDataModule):
             num_workers=self.num_workers,
             drop_last=self.drop_last,
         )
-
-    @classmethod
-    def add_argparse_args(cls, parent_parser):
-        parser = parent_parser.add_argument_group(cls.__name__)
-        parser.add_argument(
-            "--data_dir",
-            help="directory containing test.csv and train.csv",
-            type=str,
-            default="data/kaggle_mnist",
-        )
-        parser.add_argument(
-            "--batch_size",
-            help="batch size",
-            type=int,
-            default=50,
-        )
-        parser.add_argument(
-            "--num_workers",
-            help="number of dataloader workers. 4*num_gpus is usually fine",
-            type=int,
-            default=4,
-        )
-        parser.add_argument(
-            "--drop_last",
-            help="whether to drop last batch from dataloader to keep batch sizes constant",
-            type=bool,
-            default=False,
-        )
-        return parent_parser
