@@ -18,13 +18,8 @@ seed_everything(1, workers=True)
 
 def main(args):
 
-    model = MNISTClassifierModule(lr=args.learning_rate)
-    data = KaggleMNISTDataModule(
-        data_dir=args.data_dir,
-        batch_size=args.batch_size,
-        num_workers=args.num_workers,
-        drop_last=args.drop_last,
-    )
+    model = MNISTClassifierModule.from_argparse_args(args)
+    data = KaggleMNISTDataModule.from_argparse_args(args)
 
     callbacks = []
 
@@ -49,6 +44,8 @@ def main(args):
         callbacks=callbacks,
     )
     trainer.fit(model, data)
+    test_predictions = trainer.predict(model, data.test_dataloader())
+    return test_predictions
 
 
 if __name__ == "__main__":
