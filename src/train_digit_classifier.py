@@ -44,8 +44,6 @@ def main(args):
         callbacks=callbacks,
     )
     trainer.fit(model, data)
-    test_predictions = trainer.predict(model, data.test_dataloader())
-    return test_predictions
 
 
 if __name__ == "__main__":
