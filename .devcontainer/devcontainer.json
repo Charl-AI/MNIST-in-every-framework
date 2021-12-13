@@ -1,0 +1,29 @@
+{
+	"name": "Deep Learning GPU ",
+	//"image": "gcr.io/kaggle-gpu-images/python:v106",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+		"args": {
+			"VARIANT": "3.8-bullseye"
+		}
+	},
+	"runArgs": [
+		"--gpus=all",
+	],
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"python.defaultInterpreterPath": "/usr/local/bin/python",
+	},
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"github.copilot",
+		"github.vscode-pull-request-github",
+		"njpwerner.autodocstring"
+	],
+	"shutdownAction": "none", // don't stop container on exit
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	//"remoteUser": "vscode"
+}
