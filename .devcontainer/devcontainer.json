@@ -1,6 +1,5 @@
 {
 	"name": "Deep Learning GPU ",
-	//"image": "gcr.io/kaggle-gpu-images/python:v106",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "..",
