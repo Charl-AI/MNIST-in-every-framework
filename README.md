@@ -16,8 +16,8 @@ models in each framework to get a better understanding of their respective stren
 
 |                   | Digit Classifier (ResNet18) | House Price Regression | Titanic Survival Prediction | Flower Classification | Tweet NLP |
 |-------------------|-----------------------------|------------------------|-----------------------------|-----------------------|-----------|
-| Pytorch           | <ul><li>- [ ] </li><li>                       | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
-| Pytorch Lightning | <ul><li>- [x] </li><li>    | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
+| Pytorch           | <ul><li>- [ ] </li></ul>                      | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
+| Pytorch Lightning | <ul><li>- [x] </li></ul>   | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
 | TensorFlow        | - [ ]                       | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
 | JAX               | - [ ]                       | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
 | Haiku             | - [ ]                       | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
