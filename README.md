@@ -16,8 +16,8 @@ models in each framework to get a better understanding of their respective stren
 
 |                   | Digit Classifier (ResNet18) | House Price Regression   | Titanic Survival Prediction | Flower Classification    | Tweet NLP                |
 |-------------------|-----------------------------|--------------------------|-----------------------------|--------------------------|--------------------------|
-| Pytorch           | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
-| Pytorch Lightning | <ul><li>- [x] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
+| PyTorch           | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
+| PyTorch Lightning | <ul><li>- [x] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | TensorFlow        | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | JAX               | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | Haiku             | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
@@ -36,8 +36,8 @@ This project integrates with the VScode remote containers extension - if you hav
 palette to set up this project - you can also clone the repository normally and use the `Remote Containers: Open folder in Container` command.
 If you have Docker installed but do not wish to use VScode, you can build the container from the included Dockerfile.
 
-Caveat: Currently the container will install the version of Pytorch compatible with CUDA 11.3 (featured on cards such as the RTX 3090). If you do not have a card capable of this, you will
-need to install the correct version of Pytorch from [here](https://pytorch.org/get-started/locally/). In future, I will design the container to do this automatically for you.
+Caveat: Currently the container will install the version of PyTorch compatible with CUDA 11.3 (featured on cards such as the RTX 3090). If you do not have a card capable of this, you will
+need to install the correct version of PyTorch from [here](https://pytorch.org/get-started/locally/). In future, I will design the container to do this automatically for you.
 
 ### Method 2: python virtual environments (higher chance something goes wrong, but more familiar to most researchers and requires no docker installation)
 
@@ -59,7 +59,7 @@ source venv/bin/activate
 pip install -r requirements.txt --no-cache-dir
 ```
 
-If you are having CUDA issues, you can find the Pytorch builds for each version of CUDA [here](https://pytorch.org/get-started/locally/). For example, an NVIDIA RTX 3090 uses the CUDA 11.3 compute platform, this can be installed by running:
+If you are having CUDA issues, you can find the PyTorch builds for each version of CUDA [here](https://pytorch.org/get-started/locally/). For example, an NVIDIA RTX 3090 uses the CUDA 11.3 compute platform, this can be installed by running:
 
 ```bash
 pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
