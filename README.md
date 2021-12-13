@@ -11,25 +11,19 @@
 
 ## Executive Summary
 
-This project solves Kaggle 'knowledge' competitions using Pytorch Lightning. These competitions are gentle introductions to different areas in machine learning and data science; this repository is both an introduction to Kaggle and an introduction to lightning. It's worth noting that these competitions seem to suffer from overfitting on the public leaderboards (for example, the MNIST competition has submissions with 100% accuracy!). I am not particularly interested in this extreme game of tuning/overfitting, so this repository will use standard methods that can give decent and robust results out of the box.
+This project aims so solve each of the Kaggle 'knowledge' competitions with a variety of different deep learning frameworks and libraries. The main focus is to implement relatively standard deep learning
+models in each framework to get a better understanding of their respective strengths and weaknesses. Each framework is a 'mini-project', with its own directory containing the code for all of the competitions. The table below shows the progress made on each pairing of framework and competition task.
 
-### 1. MNIST digit recogniser
-We use a standard ResNet50 to perform image classification. The model gets 0.98246 accuracy on the test set after training for 5 epochs with the default arguments. This is pretty good, and you could probably push the accuracy higher with some more tuning.
+|                   | Digit Classifier (ResNet18) | House Price Regression | Titanic Survival Prediction | Flower Classification | Tweet NLP |
+|-------------------|-----------------------------|------------------------|-----------------------------|-----------------------|-----------|
+| Pytorch           | - [ ]                       | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
+| Pytorch Lightning | - [x]                       | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
+| TensorFlow        | - [ ]                       | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
+| JAX               | - [ ]                       | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
+| Haiku             | - [ ]                       | - [ ]                  | - [ ]                       | - [ ]                 | - [ ]     |
 
-### 2. House price regression
-TODO
+Note: these competitions are gentle introductions to different areas of machine learning and this repository focusses mainly as an introduction to the most popular deep learning frameworks. It's worth noting that these competitions seem to suffer from overfitting on the public leaderboards (for example, the MNIST competition has submissions with 100% accuracy!). I am not particularly interested in this extreme game of tuning/overfitting, so this repository will focus on implementing standard methods that can give decent and robust results out of the box.
 
-### 3. Titanic survival prediction
-TODO
-
-### 4. Flower Classification
-TODO
-
-### 5. Tweet NLP
-TODO
-
-
-This project uses [Pytorch Lightning](https://pytorch-lightning.readthedocs.io/en/latest/) to organise the codebase and provide some useful abstractions.
 
 ## Installation
 
@@ -73,7 +67,7 @@ pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu
 
 ## Data
 
-The data used in this project is downloadable through the Kaggle API. By default, all models expect the data to be located in ```data/```, but this can be tweaked with the data_dir command line argument. To download the data using the Kaggle API, first ensure you have your Kaggle API key stored in ```~/.kaggle/kaggle.json```, then run the following:
+The data used in this project is downloadable through the Kaggle API. By default, all models expect the data to be located in ```data/``` by default, but this can usually be changed if necessary. To download the data using the Kaggle API, first ensure you have your Kaggle API key stored in ```~/.kaggle/kaggle.json```, then run the following:
 
 ```bash
 # create and enter data directory
@@ -87,18 +81,6 @@ kaggle competitions download -p kaggle_mnist -c digit-recognizer
 unzip kaggle_mnist/digit-recognizer.zip -d kaggle_mnist
 ```
 
-## Training
+## Running
 
-The notebooks in ```src/experiments/``` contain all necessary code for training the final models. There are also training scripts with a CLI for training models directly - these are mostly useful for playing with hyperparameters. Show available options by using the ```--help``` argument with the training scripts. This will give a list of command line arguments you can use in the program. Pre-trained models are not provided in this repository due to their large size, but they can be easily reproduced by either running the notebooks or training scripts (with the appropriate hyperparameters).
-
-
-This project integrates with [Weights and Biases](https://wandb.ai/site) for logging and it is strongly recommended to use it (it's free!). By default, including the ```--logger True``` flag in the CLI will use Weights and Biases.
-When using Weights and Biases on a new machine, run ```wandb login``` in the terminal, and paste the API key from your weights and biases account when prompted to set it up.
-
-## Inference, visualisation, submission
-
-We use notebooks for inference and visualisation to improve readability. These can be found in ```src/experiments/```. These notebooks will demonstrate how to use the trained models for prediction on the test dataset. Submission can be done through the kaggle API, for example:
-```bash
-# submits preds.csv to the mnist classification competition
-kaggle competitions submit -c digit-recognizer -f data/kaggle_mnist/preds.csv --message first_submission_with_api
-```
+Each mini-project has its own README, describing how to properly do training, inference, visualisation, and submission of results.
