@@ -31,9 +31,20 @@ This project uses [Pytorch Lightning](https://pytorch-lightning.readthedocs.io/e
 
 ## Installation
 
-Note: this project has been developed and tested on Ubuntu. The project may run on other platforms, however, this is not guaranteed. If you do not have an Ubuntu machine, consider using WSL.
+This project includes both a `requirements.txt` file, as well as a `Dockerfile` and `devcontainer.json`. This enables two methods for installation:
 
-It is recommended to clone the repo with the GitHub CLI:
+### Method 1: devcontainers (recommended for full reproducibility of development environment)
+
+Devcontainers allow for full reproducibility of the OS, python version, and dependencies. This can help to avoid getting stuck in dependency hell by running everything inside a container.
+This project integrates with the VScode remote containers extension - if you have this set up, you can simply run `Remote containers: Clone Repository in Container Volume` from the command
+palette to set up this project. If you have Docker installed but do not wish to use VScode, you can build the container from the included Dockerfile.
+
+Caveat: Currently the container will install the version of Pytorch compatible with CUDA 11.3 (featured on cards such as the RTX 3090). If you do not have a card capable of this, you will
+need to install the correct version of Pytorch from [here](https://pytorch.org/get-started/locally/). In future, I will design the container to do this automatically for you.
+
+### Method 2: python virtual environments (higher chance something goes wrong, but more familiar to most researchers and requires no docker installation)
+
+First, clone the repo, it is recommended to use the GitHub CLI:
 ```bash
 # clone project
 gh repo clone Charl-AI/Kaggle-Knowledge-Competitions
@@ -42,7 +53,7 @@ gh repo clone Charl-AI/Kaggle-Knowledge-Competitions
 cd Kaggle-Knowledge-Competitions
 ```
 
-A virtual environment is recommended for this project. Create and activate a virtual environment, then install the dependencies:
+Create and activate a virtual environment, then install the dependencies:
 
 ```bash
 python3 -m venv venv
