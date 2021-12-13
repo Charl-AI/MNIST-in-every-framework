@@ -10,5 +10,7 @@ COPY requirements.txt /tmp/pip-tmp/
 RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
     && rm -rf /tmp/pip-tmp
 
-# Consider adding additional line below to check CUDA version and optionally install the
-# 11.3 version of pytorch.
+# [Optional] overwrite Pytorch version with CUDA 11.3 compatible version.
+# Comment this out if not necessary. TODO: automatically check CUDA capability and do
+# this only if necessary.
+RUN pip3 --disable-pip-version-check --no-cache-dir install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio===0.10.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
