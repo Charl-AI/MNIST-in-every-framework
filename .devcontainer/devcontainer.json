@@ -1,10 +1,21 @@
 {
-	"name": "Kaggle Dev GPU",
-	"image": "gcr.io/kaggle-gpu-images/python:v106",
+	"name": "Deep Learning GPU ",
+	//"image": "gcr.io/kaggle-gpu-images/python:v106",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+		"args": {
+			"VARIANT": "3.8-bullseye"
+		}
+	},
 	"runArgs": [
 		"--gpus=all",
 	],
-	// my favorite extensions for python development (optional)
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"python.defaultInterpreterPath": "/usr/local/bin/python",
+	},
+	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-python.python",
 		"ms-python.vscode-pylance",
@@ -12,13 +23,7 @@
 		"github.vscode-pull-request-github",
 		"njpwerner.autodocstring"
 	],
-	// "mounts": [
-	// 	"type=bind,source=${localWorkspaceFolder}/data/input,target=/kaggle/input",
-	// 	"type=bind,source=${localWorkspaceFolder}/data/output,target=/kaggle/output",
-	// ],
-	// "settings": {
-	//     "terminal.integrated.shell.linux": "/bin/bash",
-	//     "python.pythonPath": "/opt/conda/bin/python"
-	// },
-	//"shutdownAction": "none"
+	"shutdownAction": "none", // don't stop container on exit
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	//"remoteUser": "vscode"
 }
