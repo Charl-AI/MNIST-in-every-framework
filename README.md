@@ -29,17 +29,13 @@ Note: these competitions are gentle introductions to different areas of machine 
 
 This project includes both a `requirements.txt` file, as well as a `Dockerfile` and `devcontainer.json`. This enables two methods for installation:
 
-### Method 1: devcontainers (recommended for full reproducibility of development environment)
+### Method 1: devcontainers (recommended for easily reproducing the development environment)
 
-Devcontainers allow for full reproducibility of the OS, python version, and dependencies. This can help to avoid getting stuck in dependency hell by running everything inside a container with pinned versions.
-This project integrates with the VScode remote containers extension - if you have this set up, you can simply run `Remote containers: Clone Repository in Container Volume` from the command
-palette to set up this project - you can also clone the repository normally and use the `Remote Containers: Open folder in Container` command.
-If you have Docker installed but do not wish to use VScode, you can build the container from the included Dockerfile.
+If you have Docker and VScode (with the remote development extension pack) installed, you can reproduce the entire development environment including OS, Python version, and dependencies by simply running `Remote containers: Clone Repository in Container Volume` from the command palette (alternatively, you could clone the repository and run `Remote Containers: Open folder in Container`). This is the easiest way to install the project. If you use Docker but don't like VScode, feel free to try building from the Dockerfile, although some small changes might be necessary.
 
-Caveat: Currently the container will install the version of PyTorch compatible with CUDA 11.3 (featured on cards such as the RTX 3090). If you do not have a card capable of this, you will
-need to install the correct version of PyTorch from [here](https://pytorch.org/get-started/locally/). In future, I will design the container to do this automatically for you.
+Caveat: Currently the container will install the version of PyTorch compatible with CUDA 11.3 (featured on cards such as the RTX 3090). If your card only supports 10.2, you can comment out the last line of the Dockerfile to install the correct version. In future, I will design the container to check your CUDA capability and do this automatically for you.
 
-### Method 2: python virtual environments (higher chance something goes wrong, but more familiar to most researchers and requires no docker installation)
+### Method 2: python virtual environments (more involved, but more familiar to most researchers and requires no docker installation)
 
 First, clone the repo, it is recommended to use the GitHub CLI:
 ```bash
@@ -50,7 +46,7 @@ gh repo clone Charl-AI/Kaggle-Knowledge-Competitions
 cd Kaggle-Knowledge-Competitions
 ```
 
-Create and activate a virtual environment, then install the dependencies:
+Create and activate a virtual environment, then install the dependencies. Note: please make sure you are using Python 3.8 as this is what the project was built on.
 
 ```bash
 python3 -m venv venv
