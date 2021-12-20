@@ -6,10 +6,7 @@ neat features for organising the research code and abstracting away engineering 
 
 ## Training + Inference
 
-The notebooks in ```lightning-knowledge-competitions/experiments/``` contain all necessary code for training the final models and generating predictions. Pre-trained models are not provided in this repository due to their large size, but they can be easily reproduced by running the notebooks.
-
-This project integrates with [Weights and Biases](https://wandb.ai/site) for logging and it is strongly recommended to use it (it's free!). By default, including the ```--logger True``` flag in the CLI will use Weights and Biases.
-When using Weights and Biases on a new machine, run ```wandb login``` in the terminal, and paste the API key from your weights and biases account when prompted to set it up.
+The notebooks in ```lightning-knowledge-competitions/experiments/``` contain code for training the models and generating predictions. Pre-trained models are not provided in this repository due to their large size, but they can be easily reproduced by running the notebooks.
 
 ## Submission
 
