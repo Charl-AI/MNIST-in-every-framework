@@ -7,7 +7,7 @@ from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.utilities.seed import seed_everything
 
 from datasets.kaggle_mnist import KaggleMNISTDataModule
-from models.mnist_classifier import MNISTClassifierModule
+from models.digit_classifier import MNISTClassifierModule
 from visualisation.wandb_callbacks.image_classification_callback import (
     WandbImageClassificationCallback,
 )
