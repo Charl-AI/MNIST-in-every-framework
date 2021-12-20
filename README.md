@@ -12,9 +12,9 @@
 ## Executive Summary
 
 This project aims so solve each of the Kaggle 'knowledge' competitions with a variety of different deep learning frameworks and libraries. The main focus is to implement relatively standard deep learning
-models in each framework to get a better understanding of their respective strengths and weaknesses. Each framework is a 'mini-project', with its own directory containing the code for all of the competitions. The table below shows the progress made on each pairing of framework and competition task.
+models in each framework to get a better understanding of their respective strengths and weaknesses. Each framework is a 'mini-project', with its own directory containing the code for all of the competitions. The table below shows the competitions included, as well as the models and frameworks used.
 
-|                   | Digit Classifier (ResNet18) | House Price Regression   | Titanic Survival Prediction | Flower Classification    | Tweet NLP                |
+|                   | Digit Classifier (ResNet18 ~98% accuracy) | House Price Regression   | Titanic Survival Prediction | Flower Classification    | Tweet NLP                |
 |-------------------|-----------------------------|--------------------------|-----------------------------|--------------------------|--------------------------|
 | PyTorch           | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | PyTorch Lightning | <ul><li>- [x] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
@@ -22,7 +22,7 @@ models in each framework to get a better understanding of their respective stren
 | JAX               | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | Haiku             | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 
-Note: these competitions are gentle introductions to different areas of machine learning and this repository focusses mainly as an introduction to the most popular deep learning frameworks. It's worth noting that these competitions seem to suffer from overfitting on the public leaderboards (for example, the MNIST competition has submissions with 100% accuracy!). I am not particularly interested in this extreme game of tuning/overfitting, so this repository will focus on implementing standard methods that can give decent and robust results out of the box.
+You might notice that I have only given the rough score that each method attains, not specific scores for each method/framework combination. This is because these competitions are gentle introductions to different areas of machine learning and this repository serves as an introduction to the most popular deep learning frameworks. It's worth noting that these competitions seem to suffer from overfitting on the public leaderboards (for example, the MNIST competition has submissions with 100% accuracy!). I am not particularly interested in this extreme game of tuning/overfitting, so this repository will focus on implementing methods that can give good, robust results out of the box.
 
 
 ## Installation
