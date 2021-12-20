@@ -47,7 +47,10 @@ class KaggleTweets(Dataset):
         return len(self.labels)
 
     def __getitem__(self, index):
-        return self.texts[index], self.targets[index]
+        if self.train:
+            return self.texts[index], self.targets[index]
+        else:
+            return self.texts[index]
 
 
 class KaggleTweetsDataModule(pl.LightningDataModule):
