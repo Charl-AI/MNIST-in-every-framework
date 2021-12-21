@@ -38,8 +38,8 @@ class TweetClassifierModule(pl.LightningModule):
         self.save_hyperparameters()
         self.net = BertClassifier()
 
-    def forward(self, x):
-        return self.net(x)
+    def forward(self, input_id, mask):
+        return self.net(input_id, mask)
 
     def _step(self, batch, batch_idx):
         text_inputs, targets = batch
