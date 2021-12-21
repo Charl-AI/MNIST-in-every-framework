@@ -44,7 +44,7 @@ class KaggleTweets(Dataset):
         ]
 
     def __len__(self):
-        return len(self.labels)
+        return len(self.targets)
 
     def __getitem__(self, index):
         if self.train:
