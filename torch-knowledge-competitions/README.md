@@ -1,4 +1,4 @@
-# lightning-knowledge-competitions
+# torch-knowledge-competitions
 
 Solutions to the Kaggle Knowledge Competitions in [Pytorch](https://pytorch.org/).
 Pytorch is a popular framework for deep learning and is particularly widespread in research. It has a stable API and good documentation which make it great for developers.
