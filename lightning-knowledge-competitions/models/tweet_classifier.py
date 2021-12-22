@@ -15,14 +15,14 @@ class BertClassifier(nn.Module):
         super().__init__()
 
         self.bert = BertModel.from_pretrained("bert-base-cased")
-        self.fc = nn.Linear(768, 1)
+        self.fc = nn.Linear(self.bert.config.hidden_size, 1)
 
     def forward(self, input_id, mask):
 
         _, pooled_output = self.bert(
             input_ids=input_id, attention_mask=mask, return_dict=False
         )
-        return torch.sigmoid(self.fc(pooled_output))
+        return self.fc(pooled_output)
 
 
 class TweetClassifierModule(pl.LightningModule):
@@ -45,10 +45,10 @@ class TweetClassifierModule(pl.LightningModule):
         text_inputs, targets = batch
         mask = text_inputs["attention_mask"]
         input_id = text_inputs["input_ids"].squeeze(1)
-        logits = self(input_id, mask)
+        logits = self(input_id, mask).squeeze(1)
 
-        loss = F.cross_entropy(logits, targets)
-        accuracy = TF.accuracy(logits, targets)
+        loss = F.binary_cross_entropy_with_logits(logits, targets.float())
+        accuracy = TF.accuracy(torch.sigmoid(logits), targets.int())
 
         return {
             "loss": loss,
@@ -73,9 +73,9 @@ class TweetClassifierModule(pl.LightningModule):
         text_inputs = batch  # no labels in competition test data
         mask = text_inputs["attention_mask"]
         input_id = text_inputs["input_ids"].squeeze(1)
-        logits = self(input_id, mask)
+        preds = torch.sigmoid(self(input_id, mask).squeeze(1))
 
-        return text_inputs, logits > 0.5
+        return text_inputs, preds > 0.5
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.lr)
