@@ -1,8 +1,8 @@
 import pytorch_lightning as pl
 import torch.nn as nn
 import torch.nn.functional as F
-import torchmetrics.functional as TF
 import torch
+from torchmetrics import Accuracy, MetricCollection, F1
 from pytorch_lightning.utilities.argparse import add_argparse_args, from_argparse_args
 
 from transformers import BertModel
@@ -38,36 +38,38 @@ class TweetClassifierModule(pl.LightningModule):
         self.save_hyperparameters()
         self.net = BertClassifier()
 
+        metrics = MetricCollection([Accuracy(), F1()])
+        self.train_metrics = metrics.clone(prefix="train/")
+        self.val_metrics = metrics.clone(prefix="validation/")
+
     def forward(self, input_id, mask):
         return self.net(input_id, mask)
 
-    def _step(self, batch, batch_idx):
+    def training_step(self, batch, batch_idx):
         text_inputs, targets = batch
         mask = text_inputs["attention_mask"]
         input_id = text_inputs["input_ids"].squeeze(1)
         logits = self(input_id, mask).squeeze(1)
 
         loss = F.binary_cross_entropy_with_logits(logits, targets.float())
-        accuracy = TF.accuracy(torch.sigmoid(logits), targets.int())
+        metrics = self.train_metrics(torch.sigmoid(logits), targets)
+        self.log("train/loss", loss)
+        self.log_dict(metrics)
 
-        return {
-            "loss": loss,
-            "accuracy": accuracy,
-        }
-
-    def training_step(self, batch, batch_idx):
-        return self._step(batch, batch_idx)
-
-    def training_step_end(self, outs):
-        self.log("train/accuracy", outs["accuracy"])
-        self.log("train/loss", outs["loss"])
+        return loss
 
     def validation_step(self, batch, batch_idx):
-        return self._step(batch, batch_idx)
+        text_inputs, targets = batch
+        mask = text_inputs["attention_mask"]
+        input_id = text_inputs["input_ids"].squeeze(1)
+        logits = self(input_id, mask).squeeze(1)
 
-    def validation_step_end(self, outs):
-        self.log("validation/accuracy", outs["accuracy"])
-        self.log("validation/loss", outs["loss"])
+        loss = F.binary_cross_entropy_with_logits(logits, targets.float())
+        metrics = self.val_metrics(torch.sigmoid(logits), targets)
+        self.log("validation/loss", loss)
+        self.log_dict(metrics)
+
+        return loss
 
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
         text_inputs = batch  # no labels in competition test data
@@ -75,10 +77,10 @@ class TweetClassifierModule(pl.LightningModule):
         input_id = text_inputs["input_ids"].squeeze(1)
         preds = torch.sigmoid(self(input_id, mask).squeeze(1))
 
-        return text_inputs, preds > 0.5
+        return torch.where(preds > 0.5, torch.ones_like(preds), torch.zeros_like(preds))
 
     def configure_optimizers(self):
-        return torch.optim.Adam(self.parameters(), lr=self.lr)
+        return torch.optim.AdamW(self.parameters(), lr=self.lr)
 
     @classmethod
     def add_argparse_args(cls, parent_parser, **kwargs):
