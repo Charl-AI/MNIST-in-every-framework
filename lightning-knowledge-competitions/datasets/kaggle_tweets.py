@@ -30,7 +30,7 @@ class KaggleTweets(Dataset):
         )
 
         if self.train:
-            self.targets = df["target"]
+            self.targets = torch.tensor(df["target"].values)
 
         self.texts = [
             tokenizer(
