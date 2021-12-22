@@ -63,20 +63,10 @@ pip3 install torch==1.10.0+cu113 torchvision==0.11.1+cu113 torchaudio==0.10.0+cu
 
 ## Data
 
-The data used in this project is downloadable through the Kaggle API. By default, all models expect the data to be located in ```data/``` by default, but this can usually be changed if necessary. To download the data using the Kaggle API, first ensure you have your Kaggle API key stored in ```~/.kaggle/kaggle.json```, then run the following:
+The data used in this project is downloadable through the Kaggle API. By default, all models expect the data to be located in ```data/``` by default, but this can usually be changed if necessary. To download the data using the Kaggle API, first ensure you have your Kaggle API key stored in ```~/.kaggle/kaggle.json```, then run the included shell script, ensuring you are running it from the project root (i.e. the directory containing this README):
 
 ```bash
-# create and enter data directory
-mkdir data
-cd data
-
-# download datasets
-kaggle competitions download -p kaggle_mnist -c digit-recognizer
-kaggle competitions download -p kaggle_tweets -c nlp-getting-started
-
-# prepare datasets
-unzip kaggle_mnist/digit-recognizer.zip -d kaggle_mnist
-unzip kaggle_tweets/nlp-getting-started.zip -d kaggle_tweets
+bash ./download_data.sh
 ```
 
 ## Running
