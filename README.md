@@ -14,10 +14,10 @@
 This project aims so solve each of the Kaggle 'knowledge' competitions with a variety of different deep learning frameworks and libraries. The main focus is to implement relatively standard deep learning
 models in each framework to get a better understanding of their respective strengths and weaknesses. Each framework is a 'mini-project', with its own directory containing the code for all of the competitions. The table below shows the competitions included, as well as the models and frameworks used.
 
-|                   | Digit Classifier (ResNet18 ~98% accuracy) | House Price Regression   | Titanic Survival Prediction | Flower Classification    | Tweet NLP (BERT ~?% accuracy) |
+|                   | Digit Classifier (ResNet18 ~98% accuracy) | House Price Regression   | Titanic Survival Prediction | Flower Classification    | Tweet NLP (BERT ~80% F1) |
 |-------------------|-----------------------------|--------------------------|-----------------------------|--------------------------|--------------------------|
 | PyTorch           | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
-| PyTorch Lightning | <ul><li>- [x] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
+| PyTorch Lightning | <ul><li>- [x] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [x] </li></ul> |
 | TensorFlow        | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | JAX               | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | Haiku             | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
