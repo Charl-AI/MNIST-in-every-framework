@@ -19,7 +19,7 @@ class ResNet18(ResNet):
 
     """
 
-    def __init__(self, in_channels: int = 3, out_classes: int = 10):
+    def __init__(self, in_channels: int = 3, out_classes: int = 10) -> None:
         super().__init__(BasicBlock, [2, 2, 2, 2], num_classes=out_classes)
 
         # simply change the first layer to accept the number of input channels
