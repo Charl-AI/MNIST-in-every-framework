@@ -16,12 +16,17 @@ def train_digit_classifier(
 
             loader = train_loader if mode == "train" else val_loader
 
-            for batch in tqdm(
+            for imgs, targets in tqdm(
                 loader,
                 total=len(loader),
                 desc=mode,
             ):
-                pass
+                optimizer.zero_grad()
+
+                imgs, targets = imgs.to(device), targets.to(device)
+
+                loss.backward()
+                optimizer.step()
 
 
 def predict_digit_classifier():
