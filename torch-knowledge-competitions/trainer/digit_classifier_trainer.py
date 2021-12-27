@@ -129,7 +129,9 @@ def test_digit_classifier(
         device (torch.device): Device to test on.
 
     Returns:
-
+        preds (List of Tuples of Tensors [(imgs, preds)...]): Predictions for the test
+            data. List of length len(test_loader). Containing a tuple of tensors, with
+            each tensor length of batch_size.
     """
     preds = []
 
