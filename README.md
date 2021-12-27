@@ -15,7 +15,7 @@ This project aims so solve Kaggle 'getting started' competitions with a variety 
 
 |                   | Digit Classifier (ResNet18 ~98% accuracy) | Sales Forecasting (LSTM ~?% RMSLE) | Art Generation (StyleGAN3 ~? FID) | Titanic Survival (MLP ~?% Accuracy)| Tweet NLP (BERT ~80% F1) |
 |-------------------|-----------------------------|--------------------------|-----------------------------|--------------------------|--------------------------|
-| PyTorch           | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
+| PyTorch           | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [x] </li></ul> |
 | PyTorch Lightning | <ul><li>- [x] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [x] </li></ul> |
 | TensorFlow        | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | JAX               | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
@@ -70,4 +70,4 @@ bash ./download_data.sh
 
 ## Running
 
-Each mini-project has its own README, describing how to properly do training, inference, visualisation, and submission of results.
+Each mini-project has its own README, describing how to properly do training, inference, visualisation, and submission of results. Generally, this project tries to use notebooks in place of `main.py` files to enable easy visualisation of results.
