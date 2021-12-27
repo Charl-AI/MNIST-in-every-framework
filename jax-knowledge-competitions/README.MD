@@ -1,7 +1,6 @@
 # jax-knowledge-competitions
 
-Solutions to the Kaggle Knowledge Competitions in [JAX](https://jax.readthedocs.io/en/latest/notebooks/quickstart.html).
-JAX is gaining popularity in research - it offers a functional, low-level API and is self-described as 'NumPy on the CPU, GPU, and TPU, with great automatic differentiation for high-performance machine learning research.'
+Solutions to the Kaggle Knowledge Competitions in [JAX](https://jax.readthedocs.io/en/latest/notebooks/quickstart.html). JAX is gaining popularity in research - it offers a functional, low-level API and is self-described as 'NumPy on the CPU, GPU, and TPU, with great automatic differentiation for high-performance machine learning research'. We use Stax and Optix from the `jax.experimental` library to help build the deep learning models.
 
 add extra paragraphs about structure of project and how JAX differs to Pytorch
 
