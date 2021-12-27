@@ -1,4 +1,4 @@
-# jax-knowledge-competitions
+# haiku-knowledge-competitions
 
 Solutions to the Kaggle Knowledge Competitions in [JAX](https://jax.readthedocs.io/en/latest/notebooks/quickstart.html), with [Haiku](https://dm-haiku.readthedocs.io/en/latest/notebooks/basics.html). As great as JAX is, it is quite low level, so it is desirable to have some higher level libraries for deep learning. Haiku, from DeepMind, is one of the most popular JAX libraries (Flax is also popular) - it provides Pytorch-like 'Modules' to manage state whilst maintaining JAX's functional nature. We also use Optax, another DeepMind library, to manage optimisers.
 
