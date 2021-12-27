@@ -70,4 +70,4 @@ bash ./download_data.sh
 
 ## Running
 
-Each mini-project has its own README, describing how to properly do training, inference, visualisation, and submission of results. Generally, this project tries to use notebooks in place of `main.py` files to enable easy visualisation of results.
+Each mini-project has its own README, describing how to properly do training, inference, visualisation, and submission of results. Generally, this project tries to use notebooks in place of `main.py` files to enable easy visualisation of results. A nice benefit is that the notebook outputs get uploaded to GitHub, so you can see the outputs of the code without downloading and running it.
