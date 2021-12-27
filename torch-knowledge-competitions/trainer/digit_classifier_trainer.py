@@ -87,6 +87,18 @@ def train_digit_classifier(
     logger: SummaryWriter = None,
     log_every_n_steps: int = 100,
 ):
+    """Train the digit classifier model.
+
+    Args:
+        model (Type[nn.Module]): Model to train.
+        train_loader (DataLoader): Dataloader of training data.
+        val_loader (DataLoader): Dataloader of validation data.
+        num_epochs (int): Number of epochs to train for.
+        device (torch.device): Device to run the model on.
+        optimizer (Type[torch.optim.Optimizer], optional): Optimizer to use. Defaults to None.
+        logger (SummaryWriter, optional): Tensorboard logger to use. Defaults to None.
+        log_every_n_steps (int, optional): Log metrics to tensorboard every n steps. Defaults to 100.
+    """
     model = model.to(device)
     for epoch in range(num_epochs):
         for mode in ["train", "val"]:
