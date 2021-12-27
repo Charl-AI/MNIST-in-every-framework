@@ -21,12 +21,12 @@ This project aims so solve Kaggle 'getting started' competitions with a variety 
 | JAX               | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | Haiku             | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 
-You might notice that I have only given the rough score that each method attains, not specific scores for each method/framework combination. This is because these competitions are gentle introductions to different areas of machine learning and this repository serves as an introduction to the most popular deep learning frameworks. It's worth noting that these competitions seem to suffer from overfitting on the public leaderboards (for example, the MNIST competition has submissions with 100% accuracy!). I am not particularly interested in this extreme game of tuning/overfitting, so this repository will focus on implementing methods that can give good, robust results out of the box. This is also why I avoid diving into feature engineering, XGBoost, or traditional ML methods in this project (even though they are all good methods for these competitions) - I am a deep learning researcher, not a Data Scientist!
+You might notice that I have only given the rough score that each method attains, not specific scores for each method/framework combination. This project is really about getting proficient in each of the deep learning libraries, not scoring highly on the competitions. It is also worth noting that these competitions seem to suffer from overfitting on the public leaderboards - for example, the MNIST competition has submissions with 100% accuracy! I am not interested in this extreme game of tuning/overfitting as I don't think there is much to be learned by doing so; this is also why I avoid diving into feature engineering, XGBoost, or traditional ML methods in this project (even though they are all good methods for these competitions). This is not a data science project, it is about practicing coding in different styles.
 
 
 ## Installation
 
-This project includes both a `requirements.txt` file, as well as a `Dockerfile` and `devcontainer.json`. This enables two methods for installation:
+This project includes both a `requirements.txt` file, as well as a `Dockerfile` and `devcontainer.json`. This enables two methods for installation.
 
 ### Method 1: devcontainers (recommended for easily reproducing the development environment)
 
