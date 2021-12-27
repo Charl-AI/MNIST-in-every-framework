@@ -118,5 +118,31 @@ def train_digit_classifier(
                 )
 
 
-def test_digit_classifier():
-    pass
+def test_digit_classifier(
+    model: Type[nn.Module], test_loader: DataLoader, device: torch.device
+):
+    """Test the digit classifier on unlabeled data and return the predictions.
+
+    Args:
+        model (Type[nn.Module]): Model to test.
+        test_loader (DataLoader): Dataloader of test data (should not have labels).
+        device (torch.device): Device to test on.
+
+    Returns:
+
+    """
+    preds = []
+
+    for batch_idx, imgs in enumerate(
+        tqdm(
+            test_loader,
+            total=len(test_loader),
+            desc=f"Generating predictions on test set",
+        )
+    ):
+
+        imgs = imgs.to(device)
+        logits = model(imgs)
+        preds.append((imgs, torch.argmax(logits, dim=1)))
+
+    return preds
