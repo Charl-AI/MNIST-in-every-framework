@@ -1,5 +1,5 @@
 {
-	"name": "Deep Learning GPU ",
+	"name": "Deep Learning GPU: CUDA 11.3",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "..",
