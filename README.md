@@ -34,7 +34,7 @@ If you have Docker and VScode (with the remote development extension pack) insta
 
 **This method requires GPU drivers capable of CUDA 11.3 (check this by ensuring 'CUDA Version >= 11.3' when you run `nvidia-smi`)**
 
-### Method 2: python virtual environments (recommended if you do not have a CUDA >= 11.3 capable GPU)
+### Method 2: python virtual environments (recommended if you do not have a CUDA >= 11.3 capable GPU or if you do not use Docker)
 
 Clone the repository, then create, activate, and install dependencies in a [Python virtual environment](https://docs.python.org/3/tutorial/venv.html) in the usual way. **Ensure you are using Python 3.8 - this is what the project is built on**.
 
@@ -43,7 +43,7 @@ Depending on your CUDA driver capabilities / CUDA toolkit version, you may have 
 
 ## Data
 
-The data used in this project is downloadable through the Kaggle API. By default, all models expect the data to be located in ```data/``` by default, but this can usually be changed if necessary. To download the data using the Kaggle API, first ensure you have your Kaggle API key stored in ```~/.kaggle/kaggle.json```, then run the included shell script, ensuring you are running it from the project root (i.e. the directory containing this README):
+The data used in this project is downloadable through the Kaggle API. By default, all models expect the data to be located in ```data/```, but this can usually be changed if necessary. To download the data using the Kaggle API, first ensure you have your Kaggle API key stored in ```~/.kaggle/kaggle.json```, then run the included shell script, ensuring you are running it from the project root (i.e. the directory containing this README):
 
 ```bash
 bash ./download_data.sh
