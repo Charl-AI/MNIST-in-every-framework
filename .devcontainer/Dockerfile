@@ -1,5 +1,4 @@
-ARG UBUNTU=20.04
-FROM nvidia/cuda:11.3.1-cudnn8-runtime-ubuntu${UBUNTU}
+FROM nvidia/cuda:11.3.1-cudnn8-runtime-ubuntu20.04
 
 ARG PYTHON_VERSION=3.8
 
