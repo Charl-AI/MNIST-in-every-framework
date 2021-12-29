@@ -13,7 +13,12 @@
 		// https://bbs.archlinux.org/viewtopic.php?id=266915
 		"--privileged",
 	],
+	"mounts": [
+		// Bind mount data here if necessary e.g.
+		//"source=/vol/biodata/data,target=${containerWorkspaceFolder}/mounted-data,type=bind"
+	],
 	"settings": {
+		// This is the venv path set in the Dockerfile
 		"python.defaultInterpreterPath": "/opt/venv/bin/python",
 	},
 	"extensions": [
@@ -24,8 +29,8 @@
 		"njpwerner.autodocstring"
 	],
 	"features": {
-		"github-cli": "latest"
+		"github-cli": "latest",
 	},
-	//"shutdownAction": "none", // don't stop container on exit
 	"containerUser": "vscode",
+	"shutdownAction": "none", // don't stop container on exit
 }
