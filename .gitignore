@@ -130,3 +130,4 @@ MNIST
 *-logs/
 logs/
 trained_models/
+*-data/
