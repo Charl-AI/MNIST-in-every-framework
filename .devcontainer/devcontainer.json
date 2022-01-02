@@ -34,4 +34,3 @@
 	"containerUser": "vscode",
 	"shutdownAction": "none", // don't stop container on exit
 }
-//
