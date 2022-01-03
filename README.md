@@ -49,6 +49,15 @@ The data used in this project is downloadable through the Kaggle API. By default
 bash ./download_data.sh
 ```
 
-## Running
+## Training + Inference
 
-Each mini-project has its own README, describing how to properly do training, inference, visualisation, and submission of results. Generally, this project tries to use notebooks in place of `main.py` files to enable easy visualisation of results. A nice benefit is that the notebook outputs get uploaded to GitHub, so you can see the outputs of the code without downloading and running it.
+Each mini-project contains a directory called `experiments`, which contains a notebook for each challenge. The notebooks can be run to demonstrate how to perform training and inference; a nice benefit of notebooks over a normal `main.py` file is that the notebook outputs get uploaded to GitHub, so you can see what to expect from the code before you download and run it. Training is automatically logged to TensorBoard in the `logs/`  directory which makes it easy to visualise training dynammics. Launch a TensorBoard server by running `tensorboard --logdir=logs`.
+
+## Submission to Kaggle
+
+It is easiest to submit results with the Kaggle API, for example:
+```bash
+# submits preds.csv to the mnist classification competition
+kaggle competitions submit -c digit-recognizer -f data/kaggle_mnist/preds.csv --message first_submission_with_api
+```
+Each notebook contains individualised instructions for its respective competition.
