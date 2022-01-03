@@ -39,6 +39,7 @@ class KaggleMNIST(Dataset):
 
         self.imgs = self.imgs.unflatten(dim=1, sizes=(28, 28))
         self.imgs = self.imgs.unsqueeze(1)
+        self.imgs = self.imgs / 255.0
 
     def __len__(self) -> int:
         return len(self.imgs)
