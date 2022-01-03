@@ -2,9 +2,8 @@ import os
 from typing import Optional
 
 import pandas as pd
-import pytorch_lightning as pl
 import torch
-from torch.utils.data import DataLoader, Dataset, random_split
+from torch.utils.data import Dataset
 
 
 class KaggleMNIST(Dataset):
@@ -39,6 +38,7 @@ class KaggleMNIST(Dataset):
 
         self.imgs = self.imgs.unflatten(dim=1, sizes=(28, 28))
         self.imgs = self.imgs.unsqueeze(1)
+        self.imgs = self.imgs / 255.0
 
     def __len__(self) -> int:
         return len(self.imgs)
