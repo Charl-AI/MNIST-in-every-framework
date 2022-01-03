@@ -40,6 +40,7 @@ class KaggleMNIST(Dataset):
 
         self.imgs = jnp.reshape(self.imgs, (-1, 28, 28))
         self.imgs = jnp.expand_dims(self.imgs, axis=1)
+        self.imgs = jnp.float32(self.imgs) / 255.0
 
     def __len__(self) -> int:
         return len(self.imgs)
