@@ -11,7 +11,7 @@
 
 ## Executive Summary
 
-This project aims so solve Kaggle 'getting started' competitions with a variety of different deep learning frameworks and libraries. The main focus is to implement relatively standard deep learning models in each framework to get a better understanding of their respective strengths and weaknesses. Each framework is a 'mini-project', with its own directory containing the code for all of the competitions. The table below shows the competitions included, as well as the models and frameworks used.
+This project aims to solve Kaggle 'getting started' competitions with a variety of different deep learning frameworks and libraries. The main focus is to implement relatively standard deep learning models in each framework to get a better understanding of their respective strengths and weaknesses. Each framework is a 'mini-project', with its own directory containing the code for all of the competitions. The table below shows the competitions included, as well as the models and frameworks used.
 
 |                   | Digit Classifier (ResNet18 ~98% accuracy) | Sales Forecasting (LSTM ~?% RMSLE) | Art Generation (StyleGAN3 ~? FID) | Titanic Survival (Bootstrapped ensemble MLP ~?% Accuracy)| Tweet NLP (BERT ~80% F1) |
 |-------------------|-----------------------------|--------------------------|-----------------------------|--------------------------|--------------------------|
