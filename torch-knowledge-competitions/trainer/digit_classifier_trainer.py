@@ -63,7 +63,7 @@ def run_epoch(
             loss.backward()
             optimizer.step()
 
-        if logger is not None and batch_idx + 1 % log_every_n_steps == 0:
+        if logger is not None and (batch_idx + 1) % log_every_n_steps == 0:
             # mean the loss and accuracy over the last n batches
             logger.add_scalar(
                 f"{mode}/loss", total_loss / log_every_n_steps, global_step + batch_idx
