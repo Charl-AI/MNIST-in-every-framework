@@ -26,24 +26,24 @@ You might notice that I have only given the rough score that each method attains
 
 ## Installation
 
-This project includes both a `requirements.txt` file, as well as a `Dockerfile` and `devcontainer.json`. This enables two methods for installation.
+This project includes a `requirements.txt` file, as well as a `Dockerfile` and `devcontainer.json`. This enables two methods for installation.
 
 ### Method 1: devcontainers (recommended for full reproduction of development environment)
 
-If you have Docker and VScode (with the remote development extension pack) installed, you can reproduce the entire development environment including OS, Python version, CUDA version, and dependencies by simply running `Remote containers: Clone Repository in Container Volume` from the command palette (alternatively, you could clone the repository and run `Remote Containers: Open folder in Container`). This is the easiest way to install the project. If you use Docker but don't like VScode, feel free to try building from the Dockerfile, although some small changes might be necessary.
+If you have Docker and VScode (with the remote development extension pack) installed, you can reproduce the entire development environment including OS, Python version, CUDA version, and dependencies by simply running `Remote containers: Clone Repository in Container Volume` from the command palette (alternatively, you could clone the repository normally and run `Remote Containers: Open folder in Container`). This is the easiest way to install the project. If you use Docker but don't like VScode, feel free to try building from the Dockerfile, although some tweaks will be necessary.
 
-**This method requires GPU drivers capable of CUDA 11.3 (check this by ensuring CUDA Version >= 11.3 when you run `nvidia-smi`)**
+*This method requires GPU drivers capable of CUDA 11.3 - you can check this by running `nvidia-smi` and ensuring CUDA Version >= 11.3*
 
 ### Method 2: python virtual environments (recommended if you do not have a CUDA >= 11.3 capable GPU or if you do not use Docker)
 
-Clone the repository, then create, activate, and install dependencies in a [Python virtual environment](https://docs.python.org/3/tutorial/venv.html) in the usual way. **Ensure you are using Python 3.8 - this is what the project is built on**.
+Clone the repository, then create, activate, and install dependencies in a [Python virtual environment](https://docs.python.org/3/tutorial/venv.html) in the usual way. *Ensure you are using Python 3.8 - this is what the project is built on*.
 
-Depending on your CUDA driver capabilities / CUDA toolkit version, you may have to replace the deep learning libraries with versions suited to your setup. Instructions can be found here for [PyTorch](https://pytorch.org/get-started/locally/), [JAX](https://github.com/google/jax#installation), and [TensorFlow](https://www.tensorflow.org/install/gpu).
+Depending on your CUDA driver capabilities / CUDA toolkit version, you may have to reinstall the deep learning libraries with versions suited to your setup. Instructions can be found here for [PyTorch](https://pytorch.org/get-started/locally/), [JAX](https://github.com/google/jax#installation), and [TensorFlow](https://www.tensorflow.org/install/gpu).
 
 
 ## Data
 
-The data used in this project is downloadable through the Kaggle API. By default, all models expect the data to be located in ```data/```, but this can usually be changed if necessary. To download the data using the Kaggle API, first ensure you have your Kaggle API key stored in ```~/.kaggle/kaggle.json```, then run the included shell script, ensuring you are running it from the project root (i.e. the directory containing this README):
+The data used in this project is downloadable through the Kaggle API. By default, all experiments expect the data to be located in ```data/```, but this can usually be changed if necessary. To download the data using the Kaggle API, first ensure you have your Kaggle API key stored in ```~/.kaggle/kaggle.json```, then run the included shell script, ensuring you are running it from the project root (i.e. the directory containing this README):
 
 ```bash
 bash ./download_data.sh
