@@ -34,7 +34,7 @@ If you have Docker and VScode (with the remote development extension pack) insta
 
 *This method requires GPU drivers capable of CUDA 11.3 - you can check this by running `nvidia-smi` and ensuring CUDA Version = 11.3 or greater*
 
-### Method 2: python virtual environments (recommended if you do not have a CUDA >= 11.3 capable GPU or if you do not use Docker)
+### Method 2: python virtual environments (recommended if you do not have a CUDA 11.3 capable GPU or if you do not use Docker)
 
 Clone the repository, then create, activate, and install dependencies in a [Python virtual environment](https://docs.python.org/3/tutorial/venv.html) in the usual way. *Ensure you are using Python 3.8 - this is what the project is built on*.
 
