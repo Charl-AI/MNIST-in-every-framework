@@ -18,6 +18,7 @@ def run_epoch(
     optimizer: Type[torch.optim.Optimizer] = None,
     logger: SummaryWriter = None,
     log_every_n_steps: int = 100,
+    profiler: torch.profiler.profile = None,
 ) -> None:
     """Run a single epoch of training or evaluation. Results are logged to tensorboard.
 
@@ -31,6 +32,7 @@ def run_epoch(
             Defaults to None.
         logger (SummaryWriter): Tensorboard logger to use.
         log_every_n_steps (int): Log metrics to tensorboard every n steps.
+        profiler (torch.profiler.profile): Profiler to use.
     """
     assert mode in ["train", "val"], f"Mode must be either 'train' or 'val', got {mode}"
     assert (
@@ -41,6 +43,8 @@ def run_epoch(
     global_step = epoch * len(loader)  # total number of steps taken so far
     total_loss = 0
     total_accuracy = 0
+
+    profiler.start() if profiler is not None else None
 
     for batch_idx, (imgs, targets) in enumerate(
         tqdm(
@@ -63,6 +67,7 @@ def run_epoch(
             loss.backward()
             optimizer.step()
 
+        profiler.step() if profiler is not None else None
         if logger is not None and (batch_idx + 1) % log_every_n_steps == 0:
             # mean the loss and accuracy over the last n batches
             logger.add_scalar(
@@ -75,6 +80,7 @@ def run_epoch(
             )
             total_loss = 0
             total_accuracy = 0
+    profiler.stop() if profiler is not None else None
 
 
 def train_digit_classifier(
@@ -86,6 +92,7 @@ def train_digit_classifier(
     optimizer: Type[torch.optim.Optimizer] = None,
     logger: SummaryWriter = None,
     log_every_n_steps: int = 100,
+    profiler: torch.profiler.profile = None,
 ):
     """Train the digit classifier model.
 
@@ -98,6 +105,7 @@ def train_digit_classifier(
         optimizer (Type[torch.optim.Optimizer], optional): Optimizer to use. Defaults to None.
         logger (SummaryWriter, optional): Tensorboard logger to use. Defaults to None.
         log_every_n_steps (int, optional): Log metrics to tensorboard every n steps. Defaults to 100.
+        profiler (torch.profiler.profile, optional): Profiler to use. Defaults to None.
     """
     model = model.to(device)
     for epoch in range(num_epochs):
@@ -115,6 +123,7 @@ def train_digit_classifier(
                     optimizer=optimizer,
                     logger=logger,
                     log_every_n_steps=log_every_n_steps,
+                    profiler=profiler,
                 )
 
 
