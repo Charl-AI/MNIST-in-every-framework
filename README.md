@@ -32,7 +32,7 @@ This project includes a `requirements.txt` file, as well as a `Dockerfile` and `
 
 If you have Docker and VScode (with the remote development extension pack) installed, you can reproduce the entire development environment including OS, Python version, CUDA version, and dependencies by simply running `Remote containers: Clone Repository in Container Volume` from the command palette (alternatively, you could clone the repository normally and run `Remote Containers: Open folder in Container`). This is the easiest way to install the project. If you use Docker but don't like VScode, feel free to try building from the Dockerfile, although some tweaks will be necessary.
 
-*This method requires GPU drivers capable of CUDA 11.3 - you can check this by running `nvidia-smi` and ensuring CUDA Version >= 11.3*
+*This method requires GPU drivers capable of CUDA 11.3 - you can check this by running `nvidia-smi` and ensuring CUDA Version = 11.3 or greater*
 
 ### Method 2: python virtual environments (recommended if you do not have a CUDA >= 11.3 capable GPU or if you do not use Docker)
 
