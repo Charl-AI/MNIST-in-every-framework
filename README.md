@@ -18,7 +18,7 @@ This project aims to solve Kaggle 'getting started' competitions with a variety 
 | PyTorch           | <ul><li>- [x] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 | PyTorch Lightning | <ul><li>- [x] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [x] </li></ul> |
 | TensorFlow        | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
-| JAX-Flax              | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
+| JAX-Flax              | <ul><li>- [x] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul>    | <ul><li>- [ ] </li></ul> | <ul><li>- [ ] </li></ul> |
 
 
 You might notice that I have only given the rough score that each method attains, not specific scores for each method/framework combination. This project is really about getting proficient in each of the deep learning libraries, not scoring highly on the competitions. It is also worth noting that these competitions seem to suffer from overfitting on the public leaderboards - for example, the MNIST competition has submissions with 100% accuracy! I am not interested in this extreme game of tuning/overfitting as I don't think there is much to be learned by doing so; this is also why I avoid diving into feature engineering, XGBoost, or traditional ML methods in this project (even though they are all good methods for these competitions). This is not a data science project, it is about practicing coding in different styles and frameworks.
