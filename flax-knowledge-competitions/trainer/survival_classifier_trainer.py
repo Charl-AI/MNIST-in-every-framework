@@ -55,15 +55,12 @@ def compute_metrics(
 
 
 @jax.jit
-def train_step(state, batch):
+def train_step(state, batch, key):
     inputs, targets = batch
 
     def loss_fn(params):
         """loss function used for training."""
-        logits = state.apply_fn(
-            params,
-            inputs,
-        )
+        logits = state.apply_fn(params, inputs, key)
         loss = binary_cross_entropy_loss(logits, targets)
         return loss, logits
 
@@ -123,9 +120,11 @@ def train_digit_classifier(
         f" {log_every_n_steps=} >= {min_loader_len=}"
     )
 
+    key = jax.random.PRNGKey(rng)
+    init_key, key = jax.random.split(key, 2)
     inputs, *_ = next(iter(train_loader))  # dummy batch for init
     batch_shape = inputs.shape
-    state = create_train_state(rng, model, batch_shape, optimizer)
+    state = create_train_state(init_key, model, batch_shape, optimizer)
 
     for epoch in range(num_epochs):
         for mode in ["train", "val"]:
@@ -138,8 +137,9 @@ def train_digit_classifier(
             for step, batch in enumerate(
                 tqdm(loader, total=len(loader), desc=f"Epoch {epoch}, {mode}")
             ):
+                key, subkey = jax.random.split(key)
                 if mode == "train":
-                    state, metrics = train_step(state, batch)
+                    state, metrics = train_step(state, batch, subkey)
                 else:
                     metrics = val_step(state, batch)
 
