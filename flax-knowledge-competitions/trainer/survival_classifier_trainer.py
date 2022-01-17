@@ -65,7 +65,7 @@ def train_step(state, batch, key):
         return loss, logits
 
     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
-    aux, grads = grad_fn(state.params)
+    aux, grads = grad_fn(state.params)  # aux is a tuple of (loss, logits)
     logits = aux[1]
     new_state = state.apply_gradients(grads=grads)
     metrics = compute_metrics(logits, targets)
@@ -83,7 +83,6 @@ def val_step(state, batch):
 def test_step(state, batch):
     inputs = batch
     logits = state.apply_fn(state.params, inputs, train=False)
-
     # threshold at 0.5 (not necessarily optimal)
     preds = jnp.where(jax.nn.sigmoid(logits) < 0.5, 0, 1)
     return inputs, preds
