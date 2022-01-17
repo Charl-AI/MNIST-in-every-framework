@@ -1,23 +1,63 @@
-from typing import Type
+from functools import partial
+from multiprocessing import dummy
+from sqlite3 import paramstyle
+from typing import Callable, Iterable, Mapping, NamedTuple, Tuple, Any
+
+import flax
+import flax.linen as nn
+from flax.training import train_state
 import jax
 import jax.numpy as jnp
 import jmp
-import flax
-from flax import linen as nn
 import optax
 from torch.utils.data import DataLoader
-from torch.utils.tensorboard.writer import SummaryWriter
 from tqdm import tqdm
+from torch.utils.tensorboard import SummaryWriter
+
+Scalars = Mapping[str, jnp.ndarray]
 
 
-def cross_entropy_loss(logits, labels, num_classes=10):
-    one_hot_labels = jax.nn.one_hot(labels, num_classes=num_classes)
+class TrainState(train_state.TrainState):
+    batch_stats: Any = None
+
+
+def create_train_state(
+    rng: int,
+    net: nn.Module,
+    batch_shape: jnp.ndarray,
+    optimizer: optax.GradientTransformation,
+) -> TrainState:
+    """Creates initial `TrainState`
+    Args:
+        rng (int): Seed for PRNG key for parameter initialization.
+        net (nn.Module): Network to train.
+        batch_shape (jnp.ndarray): Shape of batched inputs e.g. [B, C, H, W].
+        optimizer (optax.GradientTransformation): Optax optimizer to use.
+    Returns:
+        TrainState: Flax class for storing training state and useful methods.
+    """
+    rng = jax.random.PRNGKey(rng)
+    dummy_input = jnp.ones(batch_shape, dtype=net.dtype)
+    jit_init = jax.jit(net.init)
+    variables = jit_init({"params": rng}, dummy_input)
+    params = variables["params"]
+    batch_stats = variables["batch_stats"]
+    return TrainState.create(
+        apply_fn=net.apply, params=params, tx=optimizer, batch_stats=batch_stats
+    )
+
+
+def cross_entropy_loss(logits, labels):
+    one_hot_labels = jax.nn.one_hot(labels, num_classes=10)
     xentropy = optax.softmax_cross_entropy(logits=logits, labels=one_hot_labels)
     return jnp.mean(xentropy)
 
 
-def compute_metrics(logits, labels):
-    loss = cross_entropy_loss(logits=logits, labels=labels)
+def compute_metrics(
+    logits: jnp.ndarray,
+    labels: jnp.ndarray,
+) -> Scalars:
+    loss = cross_entropy_loss(logits, labels)
     accuracy = jnp.mean(jnp.argmax(logits, -1) == labels)
     metrics = {
         "loss": loss,
@@ -26,194 +66,90 @@ def compute_metrics(logits, labels):
     return metrics
 
 
-# Subclass TrainState to add other necessary states
-class TrainState(flax.training.train_state.TrainState):
-    dynamic_scale: jmp.DynamicLossScale
-
-
-def create_train_state(
-    model: nn.Module,
-    rng: jax.PRNGKey,
-    learning_rate: float,
-    momentum: float,
-    half_precision: bool = False,
-    img_dims: tuple = (1, 28, 28),
-):
-    """Create a train state for the digit classifier model.
-
-    Args:
-        model (nn.Module): Model to train.
-        rng (jax.PRNGKey): PRNG key for parameter initialisation.
-        learning_rate (float): Learning rate for SGD optimiser.
-        momentum (float): Momentum for SGD optimiser.
-        half_precision (bool, optional): Whether to use half precision. Defaults to False.
-        img_dims (tuple, optional): Dimensions of a single img, usually (C,H,W).
-        Don't include batch because we handle that with vmap. Defaults to (1, 28, 28).
-
-    Returns:
-        TrainState: State of the model and optimiser.
-    """
-    if half_precision:
-        dynamic_scale = jmp.DynamicLossScale()
-
-    params = model.init(rng, jnp.ones(img_dims))["params"]
-    tx = optax.sgd(learning_rate, momentum)
-    return TrainState.create(
-        apply_fn=model.apply, params=params, tx=tx, dynamic_scale=dynamic_scale
-    )
-
-
 @jax.jit
-def train_step(state: TrainState, batch: jnp.ndarray):
-    """Perform a single training step.
-
-    Args:
-        state (TrainState): State of the model and optimiser.
-        batch (jnp.ndarray): Batch of data (tuple of imgs, targets).
-
-    Returns:
-        [type]: [description]
-    """
-    imgs, targets = batch
+def train_step(state, batch):
+    imgs, labels, colours, true_labels = batch
 
     def loss_fn(params):
-        logits = state.apply_fn({"params": params}, imgs)
-        loss = cross_entropy_loss(logits=logits, labels=targets)
-        return loss, logits
+        """loss function used for training."""
+        variables = {"params": params, "batch_stats": state.batch_stats}
+        logits, new_model_state = state.apply_fn(
+            variables,
+            imgs,
+            mutable=["batch_stats"],
+        )
+        loss = cross_entropy_loss(logits, labels)
+        return loss, (new_model_state, logits)
 
     grad_fn = jax.value_and_grad(loss_fn, has_aux=True)
-    (_, logits), grads = grad_fn(state.params)
-    state = state.apply_gradients(grads=grads)
-    metrics = compute_metrics(logits=logits, labels=targets)
-    return state, metrics
+    aux, grads = grad_fn(state.params)
+    new_model_state, logits = aux[1]
+    new_state = state.apply_gradients(
+        grads=grads, batch_stats=new_model_state["batch_stats"]
+    )
+    metrics = compute_metrics(logits, labels, colours, true_labels)
+    return new_state, metrics
 
 
 @jax.jit
-def eval_step(params, net, batch):
-    imgs, targets = batch
-    logits = net.apply({"params": params}, imgs)
-    return compute_metrics(logits=logits, labels=targets)
+def val_step(state, batch):
+    imgs, labels, colours, true_labels = batch
+    variables = {"params": state.params, "batch_stats": state.batch_stats}
+    logits = state.apply_fn(variables, imgs, train=False, mutable=False)
+    return compute_metrics(logits, labels, colours, true_labels)
 
 
-def run_epoch(
-    state: TrainState,
-    net: Type[nn.Module],
-    loader: DataLoader,
-    epoch: int,
-    mode: str,
-    logger: SummaryWriter = None,
-    log_every_n_steps: int = 100,
-):
-    assert mode in ["train", "val"], f"Mode must be either 'train' or 'val', got {mode}"
-    assert (
-        log_every_n_steps < len(loader) or logger is None
-    ), f"log_every_n_steps must be less than the length of the dataloader, got {log_every_n_steps} >= {len(loader)} for {mode} mode"
-
-    global_step = epoch * len(loader)  # total number of steps taken so far
-    total_loss = 0
-    total_accuracy = 0
-
-    for batch_idx, (imgs, targets) in enumerate(
-        tqdm(
-            loader,
-            total=len(loader),
-            desc=f"Epoch {epoch}: {mode}",
-        )
-    ):
-        if mode == "train":
-            state, metrics = train_step(state, net, (imgs, targets))
-        else:
-            metrics = eval_step(state.params, net, (imgs, targets))
-        total_loss += metrics["loss"]
-        total_accuracy += metrics["accuracy"]
-
-        if logger is not None and (batch_idx + 1) % log_every_n_steps == 0:
-            # mean the loss and accuracy over the last n batches
-            logger.add_scalar(
-                f"{mode}/loss", total_loss / log_every_n_steps, global_step + batch_idx
-            )
-            logger.add_scalar(
-                f"{mode}/accuracy",
-                total_accuracy / log_every_n_steps,
-                global_step + batch_idx,
-            )
-            total_loss = 0
-            total_accuracy = 0
-
-    return state
-
-
-def train_digit_classifier(
-    net: Type[nn.Module],
+def train(
+    rng: int,
+    model: nn.Module,
     train_loader: DataLoader,
     val_loader: DataLoader,
-    init_rng: jax.random.PRNGKey,
-    learning_rate: float,
-    momentum: float,
     num_epochs: int,
+    optimizer: optax.GradientTransformation,
     logger: SummaryWriter = None,
     log_every_n_steps: int = 100,
 ):
-    """Train the digit classifier model.
+    min_loader_len = min(len(train_loader), len(val_loader))
+    assert log_every_n_steps < min_loader_len or logger is None, (
+        "log_every_n_steps must be less than the length of the dataloader, got"
+        f" {log_every_n_steps=} >= {min_loader_len=}"
+    )
 
-    Args:
-        net (Type[nn.Module]): Model to train.
-        train_loader (DataLoader): Dataloader of training data.
-        val_loader (DataLoader): Dataloader of validation data.
-        init_rng (jax.random.PRNGKey): PRNG key for parameter initialisation.
-        learning_rate (float): Learning rate for SGD optimiser.
-        momentum (float): Momentum for SGD optimiser.
-        num_epochs (int): Number of epochs to train for.
-        logger (SummaryWriter, optional): Tensorboard logger to use. Defaults to None.
-        log_every_n_steps (int, optional): Log metrics to tensorboard every n steps. Defaults to 100.
-    """
-    state = create_train_state(net, init_rng, learning_rate, momentum)
-    del init_rng  # Must not be used anymore.
+    imgs, *_ = next(iter(train_loader))  # dummy batch for init
+    batch_shape = imgs.shape
+    state = create_train_state(rng, model, batch_shape, optimizer)
 
     for epoch in range(num_epochs):
         for mode in ["train", "val"]:
             loader = train_loader if mode == "train" else val_loader
 
-            state = run_epoch(
-                state,
-                net,
-                loader,
-                epoch,
-                mode,
-                logger=logger,
-                log_every_n_steps=log_every_n_steps,
-            )
+            global_step = epoch * len(loader)
+            total_accuracy = 0.0
+            total_loss = 0.0
+
+            for step, batch in enumerate(
+                tqdm(loader, total=len(loader), desc=f"Epoch {epoch}, {mode}")
+            ):
+                if mode == "train":
+                    state, metrics = train_step(state, batch)
+                else:
+                    metrics = val_step(state, batch)
+
+                total_accuracy += metrics["accuracy"]
+                total_loss += metrics["loss"]
+
+                if logger is not None and (step + 1) % log_every_n_steps == 0:
+                    # mean the loss and accuracy over the last n batches
+                    logger.add_scalar(
+                        f"{mode}/loss",
+                        total_loss / log_every_n_steps,
+                        global_step + step,
+                    )
+                    logger.add_scalar(
+                        f"{mode}/accuracy",
+                        total_accuracy / log_every_n_steps,
+                        global_step + step,
+                    )
+                    total_loss = 0
+                    total_accuracy = 0
     return state
-
-
-def test_digit_classifier(
-    net: Type[nn.Module],
-    state: TrainState,
-    test_loader: DataLoader,
-):
-    """Test the digit classifier on unlabeled data and return the predictions.
-
-    Args:
-        net (Type[nn.Module]): Model to test.
-        state (TrainState): State of the model.
-        test_loader (DataLoader): Dataloader of test data (should not have labels).
-
-    Returns:
-        preds (List of Tuples of Tensors [(imgs, preds)...]): Predictions for the test
-            data. List of length len(test_loader). Containing a tuple of tensors, with
-            each tensor length of batch_size.
-    """
-    preds = []
-
-    for batch_idx, imgs in enumerate(
-        tqdm(
-            test_loader,
-            total=len(test_loader),
-            desc=f"Generating predictions on test set",
-        )
-    ):
-
-        logits = net.apply({"params": state.params}, imgs)
-        preds.append((imgs, jnp.argmax(logits, -1)))
-
-    return preds
