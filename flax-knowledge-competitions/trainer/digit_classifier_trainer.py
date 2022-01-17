@@ -13,6 +13,7 @@ import optax
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 from torch.utils.tensorboard import SummaryWriter
+import numpy as np
 
 Scalars = Mapping[str, jnp.ndarray]
 
@@ -109,6 +110,21 @@ def train_digit_classifier(
     logger: SummaryWriter = None,
     log_every_n_steps: int = 100,
 ):
+    """Trains the digit classifier.
+
+    Args:
+        rng (int): Seed for PRNG key for parameter initialization.
+        model (nn.Module): Flax Network to train.
+        train_loader (DataLoader): Pytorch DataLoader for training data.
+        val_loader (DataLoader): Pytorch DataLoader for validation data.
+        num_epochs (int): Number of epochs to train for.
+        optimizer (optax.GradientTransformation): Optax optimizer to use.
+        logger (SummaryWriter, optional): TensorBoard logger to use. Defaults to None.
+        log_every_n_steps (int, optional): How often to log to TB. Defaults to 100.
+
+    Returns:
+        TrainState: Final state of the network.
+    """
     min_loader_len = min(len(train_loader), len(val_loader))
     assert log_every_n_steps < min_loader_len or logger is None, (
         "log_every_n_steps must be less than the length of the dataloader, got"
@@ -142,12 +158,12 @@ def train_digit_classifier(
                     # mean the loss and accuracy over the last n batches
                     logger.add_scalar(
                         f"{mode}/loss",
-                        total_loss / log_every_n_steps,
+                        np.array(total_loss / log_every_n_steps),
                         global_step + step,
                     )
                     logger.add_scalar(
                         f"{mode}/accuracy",
-                        total_accuracy / log_every_n_steps,
+                        np.array(total_accuracy / log_every_n_steps),
                         global_step + step,
                     )
                     total_loss = 0
