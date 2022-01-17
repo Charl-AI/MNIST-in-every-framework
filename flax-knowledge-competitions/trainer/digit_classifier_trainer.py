@@ -1,19 +1,14 @@
-from functools import partial
-from multiprocessing import dummy
-from sqlite3 import paramstyle
-from typing import Callable, Iterable, Mapping, NamedTuple, Tuple, Any
+from typing import Any, Mapping
 
-import flax
 import flax.linen as nn
-from flax.training import train_state
 import jax
 import jax.numpy as jnp
-import jmp
-import optax
-from torch.utils.data import DataLoader
-from tqdm import tqdm
-from torch.utils.tensorboard import SummaryWriter
 import numpy as np
+import optax
+from flax.training import train_state
+from torch.utils.data import DataLoader
+from torch.utils.tensorboard import SummaryWriter
+from tqdm import tqdm
 
 Scalars = Mapping[str, jnp.ndarray]
 
