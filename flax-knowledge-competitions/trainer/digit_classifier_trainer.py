@@ -68,7 +68,7 @@ def compute_metrics(
 
 @jax.jit
 def train_step(state, batch):
-    imgs, labels, colours, true_labels = batch
+    imgs, labels = batch
 
     def loss_fn(params):
         """loss function used for training."""
@@ -87,19 +87,19 @@ def train_step(state, batch):
     new_state = state.apply_gradients(
         grads=grads, batch_stats=new_model_state["batch_stats"]
     )
-    metrics = compute_metrics(logits, labels, colours, true_labels)
+    metrics = compute_metrics(logits, labels)
     return new_state, metrics
 
 
 @jax.jit
 def val_step(state, batch):
-    imgs, labels, colours, true_labels = batch
+    imgs, labels = batch
     variables = {"params": state.params, "batch_stats": state.batch_stats}
     logits = state.apply_fn(variables, imgs, train=False, mutable=False)
-    return compute_metrics(logits, labels, colours, true_labels)
+    return compute_metrics(logits, labels)
 
 
-def train(
+def train_digit_classifier(
     rng: int,
     model: nn.Module,
     train_loader: DataLoader,
