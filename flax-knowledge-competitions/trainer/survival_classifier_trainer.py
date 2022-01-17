@@ -44,6 +44,7 @@ def compute_metrics(
     labels: jnp.ndarray,
 ) -> Scalars:
     loss = binary_cross_entropy_loss(logits, labels)
+    # threshold at 0.5 (not necessarily optimal)
     preds = jnp.where(jax.nn.sigmoid(logits) < 0.5, 0, 1)
     accuracy = jnp.mean(preds == labels)
     metrics = {
