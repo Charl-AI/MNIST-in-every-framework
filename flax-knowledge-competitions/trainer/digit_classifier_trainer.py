@@ -1,8 +1,9 @@
 from typing import Type
 import jax
 import jax.numpy as jnp
+import jmp
+import flax
 from flax import linen as nn
-from flax.training.train_state import TrainState
 import optax
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard.writer import SummaryWriter
@@ -25,20 +26,58 @@ def compute_metrics(logits, labels):
     return metrics
 
 
-def create_train_state(net, rng, learning_rate, momentum):
-    """Creates initial `TrainState`."""
-    params = net.init(rng, jnp.ones([1, 1, 28, 28]))["params"]
+# Subclass TrainState to add other necessary states
+class TrainState(flax.training.train_state.TrainState):
+    dynamic_scale: jmp.DynamicLossScale
+
+
+def create_train_state(
+    model: nn.Module,
+    rng: jax.PRNGKey,
+    learning_rate: float,
+    momentum: float,
+    half_precision: bool = False,
+    img_dims: tuple = (1, 28, 28),
+):
+    """Create a train state for the digit classifier model.
+
+    Args:
+        model (nn.Module): Model to train.
+        rng (jax.PRNGKey): PRNG key for parameter initialisation.
+        learning_rate (float): Learning rate for SGD optimiser.
+        momentum (float): Momentum for SGD optimiser.
+        half_precision (bool, optional): Whether to use half precision. Defaults to False.
+        img_dims (tuple, optional): Dimensions of a single img, usually (C,H,W).
+        Don't include batch because we handle that with vmap. Defaults to (1, 28, 28).
+
+    Returns:
+        TrainState: State of the model and optimiser.
+    """
+    if half_precision:
+        dynamic_scale = jmp.DynamicLossScale()
+
+    params = model.init(rng, jnp.ones(img_dims))["params"]
     tx = optax.sgd(learning_rate, momentum)
-    return TrainState.create(apply_fn=net.apply, params=params, tx=tx)
+    return TrainState.create(
+        apply_fn=model.apply, params=params, tx=tx, dynamic_scale=dynamic_scale
+    )
 
 
 @jax.jit
-def train_step(state, net, batch):
-    """Train for a single step."""
+def train_step(state: TrainState, batch: jnp.ndarray):
+    """Perform a single training step.
+
+    Args:
+        state (TrainState): State of the model and optimiser.
+        batch (jnp.ndarray): Batch of data (tuple of imgs, targets).
+
+    Returns:
+        [type]: [description]
+    """
     imgs, targets = batch
 
     def loss_fn(params):
-        logits = net.apply({"params": params}, imgs)
+        logits = state.apply_fn({"params": params}, imgs)
         loss = cross_entropy_loss(logits=logits, labels=targets)
         return loss, logits
 
@@ -128,7 +167,7 @@ def train_digit_classifier(
         logger (SummaryWriter, optional): Tensorboard logger to use. Defaults to None.
         log_every_n_steps (int, optional): Log metrics to tensorboard every n steps. Defaults to 100.
     """
-    state = create_train_state(init_rng, learning_rate, momentum)
+    state = create_train_state(net, init_rng, learning_rate, momentum)
     del init_rng  # Must not be used anymore.
 
     for epoch in range(num_epochs):

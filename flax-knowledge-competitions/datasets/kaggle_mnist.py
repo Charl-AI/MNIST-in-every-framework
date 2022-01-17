@@ -1,6 +1,7 @@
 import os
 from typing import Optional
 import pandas as pd
+import numpy as np
 import jax.numpy as jnp
 from torch.utils.data import Dataset
 
@@ -29,17 +30,17 @@ class KaggleMNIST(Dataset):
 
         if self.train:
             df = pd.read_csv(os.path.join(data_dir, "train.csv"))
-            self.labels = jnp.array(df["label"].values)
+            self.labels = np.array(df["label"].values)
             self.imgs = df.drop(labels="label", axis=1)
-            self.imgs = jnp.array(self.imgs.values)
+            self.imgs = np.array(self.imgs.values)
 
         else:
             df = pd.read_csv(os.path.join(data_dir, "test.csv"))
-            self.imgs = jnp.array(df.values)
+            self.imgs = np.array(df.values)
 
-        self.imgs = jnp.reshape(self.imgs, (-1, 28, 28))
-        self.imgs = jnp.expand_dims(self.imgs, axis=1)
-        self.imgs = jnp.float32(self.imgs) / 255.0
+        self.imgs = np.reshape(self.imgs, (-1, 28, 28))
+        self.imgs = np.expand_dims(self.imgs, axis=-1)
+        self.imgs = np.float32(self.imgs) / 255.0
 
     def __len__(self) -> int:
         return len(self.imgs)
