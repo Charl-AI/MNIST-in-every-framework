@@ -1,8 +1,9 @@
 import os
 from typing import Optional
-import pandas as pd
+
 import numpy as np
-from torch.utils.data import Dataset, DataLoader
+import pandas as pd
+from torch.utils.data import DataLoader, Dataset
 
 
 class KaggleMNIST(Dataset):
