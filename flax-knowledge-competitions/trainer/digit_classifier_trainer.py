@@ -100,6 +100,15 @@ def val_step(state, batch):
     return compute_metrics(logits, labels)
 
 
+@jax.jit
+def test_step(state, batch):
+    imgs = batch
+    variables = {"params": state.params, "batch_stats": state.batch_stats}
+    logits = state.apply_fn(variables, imgs, train=False, mutable=False)
+    preds = jnp.argmax(logits, -1)
+    return imgs, preds
+
+
 def train_digit_classifier(
     rng: int,
     model: nn.Module,
@@ -169,3 +178,29 @@ def train_digit_classifier(
                     total_loss = 0
                     total_accuracy = 0
     return state
+
+
+def test_digit_classifier(state: TrainState, test_loader: DataLoader):
+    """Generate an array of predictions for the test set.
+
+    Args:
+        state (TrainState): State of the network.
+        test_loader (DataLoader): Pytorch DataLoader for test data.
+
+    Returns:
+        np.ndarray: Array of predictions for the test set.
+    """
+
+    preds = []
+    imgs = []
+
+    for batch in tqdm(
+        test_loader, total=len(test_loader), desc="Generating Predictions on Test Set"
+    ):
+        batch_imgs, batch_preds = test_step(state, batch)
+        preds.append(batch_preds)
+        imgs.append(batch_imgs)
+
+    final_preds = np.array(jnp.concatenate(preds, axis=0))
+    final_imgs = np.array(jnp.concatenate(imgs, axis=0))
+    return final_imgs, final_preds
