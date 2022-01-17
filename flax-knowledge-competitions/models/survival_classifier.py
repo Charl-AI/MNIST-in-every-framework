@@ -9,12 +9,13 @@ class MLP(nn.Module):
     """Flax implementation of an MLP with dropout."""
 
     features: Sequence[int]
+    dtype: Any = jnp.float32
 
     @nn.compact
     def __call__(self, x, train: bool = True):
 
         for i, feat in enumerate(self.features):
-            x = nn.Dense(feat)(x)
+            x = nn.Dense(feat, dtype=self.dtype)(x)
             if i != len(self.features) - 1:
                 x = nn.relu(x)
                 x = nn.Dropout(0.2, deterministic=train)(x)
