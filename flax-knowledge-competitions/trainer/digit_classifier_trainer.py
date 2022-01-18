@@ -8,7 +8,6 @@ import optax
 from clu import metric_writers
 from flax.training import train_state
 from torch.utils.data import DataLoader
-from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 Scalars = Mapping[str, jnp.ndarray]
