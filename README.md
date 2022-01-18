@@ -51,7 +51,7 @@ bash ./download_data.sh
 
 ## Training + Inference
 
-Each mini-project contains a directory called `experiments`, which contains a notebook for each challenge. The notebooks can be run to demonstrate how to perform training and inference; a nice benefit of notebooks over a normal `main.py` file is that the notebook outputs get uploaded to GitHub, so you can see what to expect from the code before you download and run it. Training is automatically logged to TensorBoard in the `logs/`  directory which makes it easy to visualise training dynammics. Launch a TensorBoard server by running `tensorboard --logdir=logs`.
+Each mini-project contains a directory called `experiments`, which contains a notebook for each challenge. The notebooks can be run to demonstrate how to perform training and inference; a nice benefit of notebooks over a normal `main.py` file is that the notebook outputs get uploaded to GitHub, so you can see what to expect from the code before you download and run it. Training is automatically logged to TensorBoard in the `logs/`  directory which makes it easy to visualise training dynamics. Launch a TensorBoard server by running `tensorboard --logdir=logs`.
 
 ## Submission to Kaggle
 
