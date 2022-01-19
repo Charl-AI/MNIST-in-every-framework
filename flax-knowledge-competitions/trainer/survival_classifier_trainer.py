@@ -5,9 +5,9 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 import optax
+from clu import metric_writers
 from flax.training.train_state import TrainState
 from torch.utils.data import DataLoader
-from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 Scalars = Mapping[str, jnp.ndarray]
@@ -95,7 +95,7 @@ def train_digit_classifier(
     val_loader: DataLoader,
     num_epochs: int,
     optimizer: optax.GradientTransformation,
-    logger: SummaryWriter = None,
+    logger: metric_writers.MetricWriter = None,
     log_every_n_steps: int = 100,
 ):
     """Trains the digit classifier.
@@ -107,7 +107,7 @@ def train_digit_classifier(
         val_loader (DataLoader): Pytorch DataLoader for validation data.
         num_epochs (int): Number of epochs to train for.
         optimizer (optax.GradientTransformation): Optax optimizer to use.
-        logger (SummaryWriter, optional): TensorBoard logger to use. Defaults to None.
+        logger (MetricWriter, optional): clu logger to use. Defaults to None.
         log_every_n_steps (int, optional): How often to log to TB. Defaults to 100.
 
     Returns:
@@ -146,19 +146,17 @@ def train_digit_classifier(
                 total_loss += metrics["loss"]
 
                 if logger is not None and (step + 1) % log_every_n_steps == 0:
-                    # mean the loss and accuracy over the last n batches
-                    logger.add_scalar(
-                        f"{mode}/loss",
-                        np.array(total_loss / log_every_n_steps),
+                    logger.write_scalars(
                         global_step + step,
-                    )
-                    logger.add_scalar(
-                        f"{mode}/accuracy",
-                        np.array(total_accuracy / log_every_n_steps),
-                        global_step + step,
+                        {
+                            f"{mode}/loss": total_loss / log_every_n_steps,
+                            f"{mode}/accuracy": total_accuracy / log_every_n_steps,
+                        },
                     )
                     total_loss = 0
                     total_accuracy = 0
+                logger.flush()
+
     return state
 
 
