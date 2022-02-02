@@ -6,6 +6,6 @@ The fundamental principle of JAX is that pure functions can be easily compiled, 
 
 Purifying stateful networks may not seem important, but I like how it reduces 'spooky action at a distance' and makes it clear exactly what is going on in training. JAX also has a nice way of handling RNG which should help with determinism and reproducibility.
 
-One final thing to note is that JAX currently has an experimental feature called `xmap()` which can be seen as an arbitrary combination of `vmap()` and `pmap()`. This, combined with the named tensors feature (also experimental) could allow future models to be written for a single example and trivially batched and parallelised across N devices with a single context manager.
+Jax doesn't have its own dataloding libraries so we need to use the dataloding functionality from PyTorch or TensorFlow. I provide examples of how to incorporate both methods. Generally, PyTorch has a more familiar API for researchers, but TensorFlow can be more performant.
 
-TODO: implement mixed precision
+One final thing to note is that JAX currently has an experimental feature called `xmap()` which can be seen as an arbitrary combination of `vmap()` and `pmap()`. This, combined with the named tensors feature (also experimental) could allow future models to be written for a single example and trivially batched and parallelised across N devices with a single context manager.
