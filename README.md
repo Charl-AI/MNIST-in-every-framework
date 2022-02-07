@@ -11,7 +11,7 @@
 
 ## Executive Summary
 
-This project aims to solve Kaggle 'getting started' competitions with a variety of different deep learning frameworks and libraries. The main focus is to implement relatively standard deep learning models in each framework to get a better understanding of their respective strengths and weaknesses. Each framework is a 'mini-project', with its own directory containing the code for all of the competitions. The table below shows the competitions included, as well as the models and frameworks used.
+We aim to solve Kaggle 'getting started' competitions with a variety of different deep learning frameworks and libraries. The main focus is to implement relatively standard deep learning models in each framework to get a better understanding of their respective strengths and weaknesses. This monorepo is organised into four 'projects', i.e. directories containing the code in each framework (PyTorch, PyTorch Lightning, TensorFlow, and JAX). Within each project are 5 'mini-projects', which are the competitions being solved. The table below shows the competitions included, as well as the models and frameworks used.
 
 |                   | Digit Classifier (ResNet18 ~98% accuracy) | Sales Forecasting (LSTM ~?% RMSLE) | Art Generation (StyleGAN3 ~? FID) | Titanic Survival (Bootstrapped ensemble MLP ~?% Accuracy)| Tweet NLP (BERT ~80% F1) |
 |-------------------|-----------------------------|--------------------------|-----------------------------|--------------------------|--------------------------|
@@ -22,6 +22,8 @@ This project aims to solve Kaggle 'getting started' competitions with a variety 
 
 
 You might notice that I have only given the rough score that each method attains, not specific scores for each method/framework combination. This project is really about getting proficient in each of the deep learning libraries, not scoring highly on the competitions. It is also worth noting that these competitions seem to suffer from overfitting on the public leaderboards - for example, the MNIST competition has submissions with 100% accuracy! I am not interested in this extreme game of tuning/overfitting as I don't think there is much to be learned by doing so; this is also why I avoid diving into feature engineering, XGBoost, or traditional ML methods in this project (even though they are all good methods for these competitions). This is not a data science project, it is about practicing coding in different styles and frameworks.
+
+There is also a small amount of repeated code across the different projects and mini-projects - for example most training loops look pretty similar and the JAX/Pytorch-Lightning projects reuse the dataloading code from TensorFlow/PyTorch. This repetition is intentional. I want the code for each mini-project to function as standalone example code which is easy to copy and paste into future projects.
 
 
 ## Installation
