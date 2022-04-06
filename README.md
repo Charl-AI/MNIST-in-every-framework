@@ -11,6 +11,8 @@
 
 ## Executive Summary
 
+*I hire not the researcher who has trained 10000 models once, I hire the researcher who has trained 1 model 10000 times* - Bruce Lee, probably
+
 We aim to solve Kaggle 'getting started' competitions with a variety of different deep learning frameworks and libraries. The main focus is to implement relatively standard deep learning models in each framework to get a better understanding of their respective strengths and weaknesses. This monorepo is organised into four 'projects', i.e. directories containing the code in each framework (PyTorch, PyTorch Lightning, TensorFlow, and JAX). Within each project are 5 'mini-projects', which are the competitions being solved. The table below shows the competitions included, as well as the models and frameworks used.
 
 |                   | Digit Classifier (ResNet18 ~98% accuracy) | Sales Forecasting (LSTM ~?% RMSLE) | Art Generation (VAE ~? FID) | Titanic Survival (MLP Ensemble ~?% Accuracy)| Tweet NLP (BERT ~80% F1) |
