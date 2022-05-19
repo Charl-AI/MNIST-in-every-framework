@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+from typing import Callable, Optional
 
 import numpy as np
 import pandas as pd
@@ -15,7 +15,7 @@ class KaggleMNIST(Dataset):
         self,
         data_dir: str,
         train: bool,
-        transform: Optional[callable] = None,
+        transform: Optional[Callable] = None,
     ) -> None:
         """
         Args:
