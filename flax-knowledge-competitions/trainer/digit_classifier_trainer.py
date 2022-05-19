@@ -1,4 +1,4 @@
-from typing import Any, Mapping
+from typing import Any, Mapping, Optional
 
 import flax.linen as nn
 import jax
@@ -10,7 +10,7 @@ from flax.training import train_state
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-Scalars = Mapping[str, jnp.ndarray]
+Scalars = Mapping[str, float]
 
 
 class TrainState(train_state.TrainState):
@@ -19,7 +19,7 @@ class TrainState(train_state.TrainState):
 
 def create_train_state(
     rng: int,
-    net: nn.Module,
+    net: nn.module.Module,
     batch_shape: jnp.ndarray,
     optimizer: optax.GradientTransformation,
 ) -> TrainState:
@@ -32,10 +32,10 @@ def create_train_state(
     Returns:
         TrainState: Flax class for storing training state and useful methods.
     """
-    rng = jax.random.PRNGKey(rng)
+    rngkey = jax.random.PRNGKey(rng)
     dummy_input = jnp.ones(batch_shape, dtype=net.dtype)
     jit_init = jax.jit(net.init)
-    variables = jit_init({"params": rng}, dummy_input)
+    variables = jit_init({"params": rngkey}, dummy_input)
     params = variables["params"]
     batch_stats = variables["batch_stats"]
     return TrainState.create(
@@ -106,12 +106,12 @@ def test_step(state, batch):
 
 def train_digit_classifier(
     rng: int,
-    model: nn.Module,
+    model: nn.module.Module,
     train_loader: DataLoader,
     val_loader: DataLoader,
     num_epochs: int,
     optimizer: optax.GradientTransformation,
-    logger: metric_writers.MetricWriter = None,
+    logger: Optional[metric_writers.MetricWriter] = None,
     log_every_n_steps: int = 100,
 ):
     """Trains the digit classifier.
@@ -168,7 +168,7 @@ def train_digit_classifier(
                     )
                     total_loss = 0
                     total_accuracy = 0
-                logger.flush()
+                logger.flush() if logger is not None else None
     return state
 
 
