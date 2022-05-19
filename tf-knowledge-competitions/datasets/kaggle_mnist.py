@@ -21,6 +21,7 @@ def create_dataset(data_dir: str, train: bool = True) -> tf.data.Dataset:
     if train:
         df = pd.read_csv(os.path.join(data_dir, "train.csv"))
         labels = np.array(df["label"].values)
+        labels = tf.one_hot(labels, 10)
         imgs = df.drop(labels="label", axis=1)
         imgs = np.array(imgs.values)
     else:
@@ -30,6 +31,9 @@ def create_dataset(data_dir: str, train: bool = True) -> tf.data.Dataset:
     imgs = np.reshape(imgs, (-1, 28, 28))
     imgs = np.expand_dims(imgs, axis=-1)
     imgs = np.float32(imgs) / 255.0
+
+    # resize to 32x32 because our resnet needs this as minimum size
+    imgs = tf.image.resize(imgs, (32, 32))
 
     if train:
         return tf.data.Dataset.from_tensor_slices((imgs, labels))  # type: ignore

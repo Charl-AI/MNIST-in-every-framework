@@ -1,5 +1,5 @@
-from tensorflow.keras.applications.resnet import ResNet
-from tensorflow.keras.applications.resnet import stack1
+from keras.applications.resnet import ResNet
+from keras.applications.resnet import stack1
 
 
 def ResNet18(
@@ -27,7 +27,7 @@ def ResNet18(
         True,
         "resnet18",
         include_top,
-        weights,
+        weights,  # type: ignore
         input_tensor,
         input_shape,
         pooling,
