@@ -44,7 +44,13 @@ Clone this repo. Next, install Docker with the NVIDIA container runtime. Instruc
 
 ```
 
-### 2. Run
+### 2. (Optional) Check to make sure GPU is working
+
+```bash
+docker run --gpus=all ... nvidia-smi
+```
+
+### 3. Run
 
 Insert the run command for the relevant framework from the table above in the part that says `<run command>`. Running the container will do the following: 1. download the MNIST dataset (it will be deleted when the container finishes), 2. train the model, 3. test the model, 4. print a summary of the results.
 
@@ -53,4 +59,4 @@ Insert the run command for the relevant framework from the table above in the pa
 ```
 
 
-*We also provide a VS Code 'devcontainer' specification. If you use VS Code (with the remote development extension pack), you can setup a development environment by cloning the repo and running `Remote Containers: Open folder in Container` from the command palette*.
+*We also provide a VS Code 'devcontainer' specification. If you use VS Code (with the remote development extension pack), you can setup a development environment by cloning the repo and running `Remote Containers: Open folder in Container` from the command palette.*
