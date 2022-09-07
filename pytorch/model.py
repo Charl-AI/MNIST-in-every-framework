@@ -1,8 +1,4 @@
-import pytorch_lightning as pl
 import torch
-import torch.nn.functional as F
-import torchmetrics.functional as TF
-from pytorch_lightning.utilities.argparse import add_argparse_args, from_argparse_args
 from torchvision.models.resnet import BasicBlock, ResNet
 
 

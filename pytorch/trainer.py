@@ -1,59 +1,59 @@
-from typing import Type
+import logging
+from typing import Literal, Optional
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchmetrics.functional as TF
 from torch.utils.data import DataLoader
-from torch.utils.tensorboard.writer import SummaryWriter
 from tqdm import tqdm
 
 
 def run_epoch(
-    model: Type[nn.Module],
+    model: nn.Module,
     loader: DataLoader,
     device: torch.device,
     epoch: int,
-    mode: str,
-    optimizer: Type[torch.optim.Optimizer] = None,
-    logger: SummaryWriter = None,
+    mode: Literal["train", "val", "test"],
     log_every_n_steps: int = 100,
-    profiler: torch.profiler.profile = None,
+    optimizer: Optional[torch.optim.Optimizer] = None,
 ) -> None:
-    """Run a single epoch of training or evaluation. Results are logged to tensorboard.
+    """Run a single epoch of training or evaluation. Results are logged to standard
+    output (INFO level).
 
     Args:
         model (Type[nn.Module]): Model to train/evaluate.
         loader (DataLoader): Dataloader of training/evaluation data.
         device (torch.device): Device to run the model on.
         epoch (int): Current epoch number.
-        mode (str): "train" or "val" string to specify training or evaluation mode.
+        mode (str): "train", "val", "test" string to specify training or evaluation mode.
         optimizer (Type[torch.optim.Optimizer]): optimizer to use (training mode only).
             Defaults to None.
-        logger (SummaryWriter): Tensorboard logger to use.
-        log_every_n_steps (int): Log metrics to tensorboard every n steps.
-        profiler (torch.profiler.profile): Profiler to use.
+        log_every_n_steps (int): Log metrics every n steps.
     """
-    assert mode in ["train", "val"], f"Mode must be either 'train' or 'val', got {mode}"
-    assert (
-        log_every_n_steps < len(loader) or logger is None
-    ), f"log_every_n_steps must be less than the length of the dataloader, got {log_every_n_steps} >= {len(loader)} for {mode} mode"
+    assert mode in [
+        "train",
+        "val",
+        "test",
+    ], f"Mode must be either 'train', 'val', 'test, got {mode}"
+    assert log_every_n_steps < len(loader), (
+        "log_every_n_steps must be less than the length of the dataloader, got"
+        f" {log_every_n_steps} >= {len(loader)} for {mode} mode"
+    )
 
     model.train() if mode == "train" else model.eval()
     global_step = epoch * len(loader)  # total number of steps taken so far
     total_loss = 0
     total_accuracy = 0
 
-    profiler.start() if profiler is not None else None
-
     for batch_idx, (imgs, targets) in enumerate(
         tqdm(
             loader,
             total=len(loader),
-            desc=f"Epoch {epoch}: {mode}",
+            desc=f"{mode} epoch {epoch}: ",
         )
     ):
-        optimizer.zero_grad() if mode == "train" else None
+        optimizer.zero_grad() if optimizer else None
 
         imgs, targets = imgs.to(device), targets.to(device)
         logits = model(imgs)
@@ -65,34 +65,30 @@ def run_epoch(
 
         if mode == "train":
             loss.backward()
-            optimizer.step()
+            optimizer.step() if optimizer else None
 
-        profiler.step() if profiler is not None else None
-        if logger is not None and (batch_idx + 1) % log_every_n_steps == 0:
+        if (batch_idx + 1) % log_every_n_steps == 0:
             # mean the loss and accuracy over the last n batches
-            logger.add_scalar(
-                f"{mode}/loss", total_loss / log_every_n_steps, global_step + batch_idx
+            logging.info(
+                f"{mode}/loss, step {global_step + batch_idx}:"
+                f" {total_loss / log_every_n_steps}"
             )
-            logger.add_scalar(
-                f"{mode}/accuracy",
-                total_accuracy / log_every_n_steps,
-                global_step + batch_idx,
+            logging.info(
+                f"{mode}/accuracy, step {global_step + batch_idx}:"
+                f" {total_accuracy / log_every_n_steps}"
             )
             total_loss = 0
             total_accuracy = 0
-    profiler.stop() if profiler is not None else None
 
 
 def train_digit_classifier(
-    model: Type[nn.Module],
+    model: nn.Module,
     train_loader: DataLoader,
     val_loader: DataLoader,
     num_epochs: int,
     device: torch.device,
-    optimizer: Type[torch.optim.Optimizer] = None,
-    logger: SummaryWriter = None,
+    optimizer: torch.optim.Optimizer,
     log_every_n_steps: int = 100,
-    profiler: torch.profiler.profile = None,
 ):
     """Train the digit classifier model.
 
@@ -119,41 +115,30 @@ def train_digit_classifier(
                     loader,
                     device,
                     epoch,
-                    mode,
+                    mode,  # type: ignore
                     optimizer=optimizer,
-                    logger=logger,
                     log_every_n_steps=log_every_n_steps,
-                    profiler=profiler,
                 )
 
 
 def test_digit_classifier(
-    model: Type[nn.Module], test_loader: DataLoader, device: torch.device
-):
-    """Test the digit classifier on unlabeled data and return the predictions.
+    model: nn.Module, test_loader: DataLoader, device: torch.device
+) -> None:
+    """Test the digit classifier on the test set, logging the results.
 
     Args:
         model (Type[nn.Module]): Model to test.
         test_loader (DataLoader): Dataloader of test data (should not have labels).
         device (torch.device): Device to test on.
-
-    Returns:
-        preds (List of Tuples of Tensors [(imgs, preds)...]): Predictions for the test
-            data. List of length len(test_loader). Containing a tuple of tensors, with
-            each tensor length of batch_size.
     """
-    preds = []
-
-    for batch_idx, imgs in enumerate(
-        tqdm(
+    model = model.to(device)
+    with torch.set_grad_enabled(False):
+        run_epoch(
+            model,
             test_loader,
-            total=len(test_loader),
-            desc=f"Generating predictions on test set",
+            device,
+            epoch=0,
+            mode="test",
+            optimizer=None,
+            log_every_n_steps=len(test_loader) - 1,
         )
-    ):
-
-        imgs = imgs.to(device)
-        logits = model(imgs)
-        preds.append((imgs, torch.argmax(logits, dim=1)))
-
-    return preds
