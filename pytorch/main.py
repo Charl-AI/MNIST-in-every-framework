@@ -12,7 +12,7 @@ from trainer import test_digit_classifier, train_digit_classifier
 
 @dataclass
 class Configurations:
-    data_dir: str = "data/kaggle_mnist"
+    data_dir: str = "data/"
     batch_size: int = 128
     num_workers: int = 4
     lr: float = 0.01
