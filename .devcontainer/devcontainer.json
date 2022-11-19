@@ -1,36 +1,48 @@
 {
-	"name": "Deep Learning GPU: CUDA 11.3",
+	"name": "Fairness Perspective",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "..",
-		"args": {
-			"PYTHON_VERSION": "3.8",
-		}
+		"target": "dev"
 	},
 	"runArgs": [
 		"--gpus=all",
 		//  Setting privileged is sometimes necessary to make GPUs visible
 		// https://bbs.archlinux.org/viewtopic.php?id=266915
-		"--privileged",
-	],
-	"mounts": [
-		// Bind mount data here if necessary e.g.
-		//"source=/vol/biodata/data,target=${containerWorkspaceFolder}/mounted-data,type=bind"
+		"--privileged"
 	],
 	"settings": {
 		// This is the venv path set in the Dockerfile
 		"python.defaultInterpreterPath": "/opt/venv/bin/python",
+		"python.languageServer": "Pylance",
+		"python.analysis.typeCheckingMode": "basic",
+		"python.formatting.provider": "black",
+		"black-formatter.args": [
+			"--experimental-string-processing"
+		],
+		"editor.formatOnSave": true,
+		"python.testing.pytestArgs": [
+			"tests"
+		],
+		"python.testing.unittestEnabled": false,
+		"python.testing.pytestEnabled": true,
+		"jupyter.jupyterServerType": "local"
 	},
 	"extensions": [
 		"ms-python.python",
 		"ms-python.vscode-pylance",
+		"ms-python.black-formatter",
 		"github.copilot",
 		"github.vscode-pull-request-github",
 		"njpwerner.autodocstring"
 	],
 	"features": {
-		"github-cli": "latest",
+		"github-cli": "latest"
+	},
+	// prepend the venv to $PATH, removing the need for source /opt/venv/bin/activate
+	"remoteEnv": {
+		"PATH": "/opt/venv/bin:${containerEnv:PATH}"
 	},
 	"containerUser": "vscode",
-	"shutdownAction": "none", // don't stop container on exit
+	"shutdownAction": "none" // don't stop container on exit
 }
