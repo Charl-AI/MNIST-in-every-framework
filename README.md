@@ -8,7 +8,7 @@
 
 *I hire not the researcher who has trained 10000 models once, I hire the researcher who has trained 1 model 10000 times* - Bruce Lee, probably
 
-We implement and train a GPU-accelerated ResNet18 MNIST classifier in every (deep learning adjacent) framework and language. The goal is to practice coding in different languages and frameworks.
+We implement and train a MNIST MLP classifier in increasingly unorthodox frameworks and languages. The goal is to practice coding in different styles. Are you a deep learning researcher who wants to learn a new language, but hates web development?? You've come to the right place!
 
 |                   | Implemented? | Run command: |
 |-------------------|-----------------------------|--------------------------|
@@ -19,15 +19,9 @@ We implement and train a GPU-accelerated ResNet18 MNIST classifier in every (dee
 | Julia             | <ul><li>- [ ] </li></ul>    | `bash julia/run.sh` |
 | Rust              | <ul><li>- [ ] </li></ul>    | `bash rust/run.sh` |
 | Haskell           | <ul><li>- [ ] </li></ul>    | `bash haskell/run.sh` |
-
-
-## Why do all of this?
-
-This project started because I wanted to learn JAX and thought it would be a good idea to have a repository of several problems implemented in both PyTorch and JAX to compare the different styles. As I started adding more frameworks to compare, it became too much of a burden to maintain all of the problems in all of the frameworks so I decided to reduce the scope to only focus on MNIST. It turns out that MNIST classification is a great project for learning new languages and frameworks for a number of reasons:
-
-1. Familiar. Everyone knows what a MNIST ResNet project looks like. This helps you understand what the code is doing, even in a new language.
-2. Ecosystem. Most major Python frameworks have a substantial ecosystem with lots of image classification examples. MNIST classification is thus a great introduction to things you will use in practice like `tf.data` or `torch.nn`.
-3. Lack of ecosystem. Outside of Python, there is much more to implement yourself. This is a great way to improve at the language because you will have to learn how to do things like implementing dataloaders and layers etc...
+| OCaml             | <ul><li>- [ ] </li></ul>    | `bash ocaml/run.sh` |
+| C                | <ul><li>- [ ] </li></ul>    | `bash c/run.sh` |
+| Assembly?!        | <ul><li>- [ ] </li></ul>    | `bash assembly/run.sh` |
 
 
 ## Installation and Running
