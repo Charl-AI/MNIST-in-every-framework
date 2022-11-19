@@ -6,7 +6,7 @@ import torch
 import torchvision
 from torch.utils.data import DataLoader, random_split
 
-from model import ResNet18
+from model import MNISTMLP
 from trainer import test_digit_classifier, train_digit_classifier
 
 
@@ -32,7 +32,7 @@ def main(cfg: Configurations):
         encoding="utf-8",
     )
     device = torch.device(cfg.device)
-    model = ResNet18(in_channels=1, out_classes=10)
+    model = MNISTMLP()
     optimizer = torch.optim.SGD(model.parameters(), lr=cfg.lr)
     transforms = torchvision.transforms.Compose(
         [
