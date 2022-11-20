@@ -17,7 +17,7 @@ class Configurations:
     num_workers: int = 4
     lr: float = 0.01
     num_epochs: int = 5
-    device: str = "cuda"
+    device: str = "cpu"
     log_every_n_steps: int = 50
     val_split: float = 0.2
     log_dir: str = "outputs/"

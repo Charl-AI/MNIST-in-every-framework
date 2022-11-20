@@ -27,7 +27,6 @@ def main(cfg: Configurations):
     trainer = pl.Trainer(
         default_root_dir=cfg.log_dir,
         max_epochs=cfg.num_epochs,
-        gpus=1,
         precision=16,
         enable_checkpointing=False,
         logger=logger,

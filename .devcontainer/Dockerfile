@@ -54,4 +54,4 @@ FROM base as prod
 WORKDIR /app
 COPY . /app
 
-CMD ["python", "src/main.py"]
+CMD ["bash"]
