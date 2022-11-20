@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04 as base
+FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-20.04 as base
 
 ARG PYTHON_VERSION=3.9
 
@@ -29,26 +29,7 @@ RUN pip3 install --upgrade pip \
     && pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
     && rm -rf /tmp/pip-tmp
 
-# Use the development stage with the vscode devcontainer
-FROM base as dev
 
-# Install gpustat for monitoring GPUs and give permissions for installing more packages
-RUN pip3 --disable-pip-version-check --no-cache-dir install gpustat \
-    && rm -rf /tmp/pip-tmp \
-    && chmod -R 777 $VIRTUAL_ENV
-
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    && apt-get update \
-    && apt-get install -y sudo \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
-
-# prod is for reproducing results without the devcontainer (build image as executable)
 FROM base as prod
 
 WORKDIR /app

@@ -1,16 +1,10 @@
 {
-	"name": "Fairness Perspective",
+	"name": "MNIST in Every Framework",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "..",
-		"target": "dev"
+		"target": "base"
 	},
-	"runArgs": [
-		"--gpus=all",
-		//  Setting privileged is sometimes necessary to make GPUs visible
-		// https://bbs.archlinux.org/viewtopic.php?id=266915
-		"--privileged"
-	],
 	"settings": {
 		// This is the venv path set in the Dockerfile
 		"python.defaultInterpreterPath": "/opt/venv/bin/python",
@@ -20,13 +14,7 @@
 		"black-formatter.args": [
 			"--experimental-string-processing"
 		],
-		"editor.formatOnSave": true,
-		"python.testing.pytestArgs": [
-			"tests"
-		],
-		"python.testing.unittestEnabled": false,
-		"python.testing.pytestEnabled": true,
-		"jupyter.jupyterServerType": "local"
+		"editor.formatOnSave": true
 	},
 	"extensions": [
 		"ms-python.python",
