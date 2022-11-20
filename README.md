@@ -8,49 +8,62 @@
 
 *I hire not the researcher who has trained 10000 models once, I hire the researcher who has trained 1 model 10000 times* - Bruce Lee, probably
 
-We implement and train a MNIST MLP classifier in increasingly unorthodox frameworks and languages. The goal is to practice coding in different styles. Are you a deep learning researcher who wants to learn a new language, but hates web development?? You've come to the right place!
+We implement and train a MNIST MLP classifier in increasingly unorthodox
+frameworks and languages. The goal is to practice coding in different styles and
+to learn new languages. Are you a deep learning researcher who wants to learn a
+new language? Has PhD life turned your brain into mush that can only understand
+28*28 pixel handwritten characters? You've come to the right place!
 
 |                   | Implemented? | Run command: |
 |-------------------|-----------------------------|--------------------------|
-| PyTorch           | <ul><li>- [x] </li></ul>    | `bash pytorch/run.sh` |
-| PyTorch-Lightning | <ul><li>- [x] </li></ul>    | `bash pytorch-lightning/run.sh` |
-| TensorFlow        | <ul><li>- [x] </li></ul>    | `bash tensorflow/run.sh` |
-| JAX + Haiku       | <ul><li>- [x] </li></ul>    | `bash jax/run.sh` |
-| Julia             | <ul><li>- [ ] </li></ul>    | `bash julia/run.sh` |
-| Rust              | <ul><li>- [ ] </li></ul>    | `bash rust/run.sh` |
-| Haskell           | <ul><li>- [ ] </li></ul>    | `bash haskell/run.sh` |
-| OCaml             | <ul><li>- [ ] </li></ul>    | `bash ocaml/run.sh` |
-| C                | <ul><li>- [ ] </li></ul>    | `bash c/run.sh` |
-| Assembly?!        | <ul><li>- [ ] </li></ul>    | `bash assembly/run.sh` |
+| PyTorch           | <ul><li>- [x] </li></ul>    | `python pytorch/main.py` |
+| PyTorch-Lightning | <ul><li>- [x] </li></ul>    | `python lightning/main.py` |
+| TensorFlow        | <ul><li>- [x] </li></ul>    | `python tensorflow/main.py` |
+| JAX + Haiku       | <ul><li>- [x] </li></ul>    | `python haiku/main.py` |
+| Julia             | <ul><li>- [ ] </li></ul>    | `N/A` |
+| Rust              | <ul><li>- [ ] </li></ul>    | `N/A` |
+| Haskell           | <ul><li>- [ ] </li></ul>    | `N/A` |
+| OCaml             | <ul><li>- [ ] </li></ul>    | `N/A` |
+| C                 | <ul><li>- [ ] </li></ul>    | `N/A` |
+| Assembly?!        | <ul><li>- [ ] </li></ul>    | `N/A` |
 
 
 ## Installation and Running
 
-We provide a Dockerfile for installation and running the project. The image requires your host machine to have a GPU + driver capable of running CUDA 11.3 (you can check this by running `nvidia-smi` and looking at the 'CUDA Version' field). If you don't, you will have to install everything manually.
+Since we use lots of different languages and frameworks, this project would be a
+nightmare to install from scratch. Instead, we provide a Dockerfile for
+installing and running the project with minimal pain. The only dependency you need
+is a working Docker installation.
 
-### 0. Prerequisites
+### Prerequisites
 
-Clone this repo. Next, install Docker with the NVIDIA container runtime. Instructions can be found [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker).
-
-### 1. Build the Docker Image
-
-```bash
-
-```
-
-### 2. (Optional) Check to make sure GPU is working
+Clone this repo:
 
 ```bash
-docker run --gpus=all ... nvidia-smi
+git clone https://github.com/Charl-AI/MNIST-in-every-framework.git
+cd MNIST-in-every-framework
 ```
 
-### 3. Run
-
-Insert the run command for the relevant framework from the table above in the part that says `<run command>`. Running the container will do the following: 1. download the MNIST dataset (it will be deleted when the container finishes), 2. train the model, 3. test the model, 4. print a summary of the results.
+Check that your Docker installation is working:
 
 ```bash
-
+docker run hello-world
 ```
 
+### Option 1: Build and run the Docker image manually
 
-*We also provide a VS Code 'devcontainer' specification. If you use VS Code (with the remote development extension pack), you can setup a development environment by cloning the repo and running `Remote Containers: Open folder in Container` from the command palette.*
+First, build the image:
+
+```bash
+docker build -f .devcontainer/Dockerfile . -t mnist-in-every-framework
+```
+
+Next, run the desired project, replacing `<run command>` with the command to run for the project. The MNIST dataset will be downloaded automatically upon running the container. Outputs of the project will be logged to your local filesystem in the `outputs/` directory so you can view the results.
+
+```bash
+docker run --rm -it -v $(pwd)/outputs:/app/outputs mnist-in-every-framework <run command>
+```
+
+### Option 2: Use VSCode Remote Containers
+
+If you use VSCode with the remote containers extension, you can install the dependencies and open a VSCode development environment for this project by simply running `Remote Containers: Open folder in Container` from the command palette. You can then run any project you want by pasting the run command into the integrated terminal.
