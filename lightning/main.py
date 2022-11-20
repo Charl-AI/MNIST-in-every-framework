@@ -1,5 +1,3 @@
-import logging
-import pathlib
 from dataclasses import dataclass
 
 from module import MNISTClassifierModule
