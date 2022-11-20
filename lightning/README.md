@@ -1,4 +1,4 @@
-# lightning-knowledge-competitions
+# MNIST in Pytorch-Lightning
 
 Pytorch lightning is primarily aimed at researchers looking for the flexibility and comfortable API of Pytorch with a few neat features for organising the research code and abstracting away engineering code.
 
