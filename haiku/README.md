@@ -1,0 +1,5 @@
+# MNIST in JAX+Haiku
+
+JAX is gaining popularity in research - it offers a functional, low-level API and is self-described as 'NumPy on the CPU, GPU, and TPU, with great automatic differentiation for high-performance machine learning research'. It is quite low-level, so usually higher level libraries are used on top of it. In this case, we use Haiku and Optax, from the DeepMind ecosystem.
+
+The fundamental principle of JAX is that pure functions can be easily compiled, vectorised, and parallelised with `jit()`, `vmap()`, and `pmap()`, respectively. This makes it more performant because `jit()` can optimise your programs specifically, instead of relying on prebuilt CUDA kernels which sacrifice some performance to be more general. In Haiku, neural networks are specified as classes, but explicitly transformed to a pair of pure functions: an init function which initialises the parameters, and an apply function which takes an input and the parameters and produces the output. Because the parameters are no longer part of the network state, they must be passed around from function to function - it is idiomatic to use a `TrainState` container for all stateful objects.
