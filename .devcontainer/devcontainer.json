@@ -22,7 +22,8 @@
 		"ms-python.black-formatter",
 		"github.copilot",
 		"github.vscode-pull-request-github",
-		"njpwerner.autodocstring"
+		"njpwerner.autodocstring",
+		"julialang.language-julia"
 	],
 	"features": {
 		"github-cli": "latest"
