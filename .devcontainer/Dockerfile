@@ -23,12 +23,19 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python${PYTHON_VERSION} -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-# Install requirements in venv
+# Install python requirements in venv
 COPY requirements.txt /tmp/pip-tmp/
 RUN pip3 install --upgrade pip \
     && pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
     && rm -rf /tmp/pip-tmp
 
+# Install Julia + requirements
+ENV JULIA_ENV=/opt/julia
+RUN wget https://julialang-s3.julialang.org/bin/linux/x64/1.8/julia-1.8.3-linux-x86_64.tar.gz \
+    && mkdir -p ${JULIA_ENV} \
+    && tar -zxvf julia-1.8.3-linux-x86_64.tar.gz -C ${JULIA_ENV} --strip-components=1
+
+ENV PATH="$JULIA_ENV/bin:$PATH"
 
 FROM base as prod
 
