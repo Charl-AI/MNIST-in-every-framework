@@ -64,6 +64,11 @@ RUN set -eux; \
     cargo --version; \
     rustc --version;
 
+# Install BLAS for rust ndarray
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    libopenblas-dev \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 FROM base as prod
 

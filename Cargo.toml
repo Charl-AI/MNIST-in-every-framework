@@ -8,4 +8,7 @@ name = "mnist_in_every_framework"
 path = "rust/main.rs"
 
 [dependencies]
-ndarray = { version = "0.15.0"}
+ndarray = { version = "0.14", features = ["blas"] }
+blas-src = { version = "0.6.1", features = ["openblas"] }
+openblas-src = { version = "0.9", features = ["cblas", "system"] }
+autograd = "1.1.1"
