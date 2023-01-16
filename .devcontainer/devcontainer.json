@@ -14,7 +14,18 @@
 		"black-formatter.args": [
 			"--experimental-string-processing"
 		],
-		"editor.formatOnSave": true
+		"editor.formatOnSave": true,
+		"rust-analyzer.checkOnSave.command": "clippy",
+		"[python]": {
+			"editor.rulers": [
+				88
+			]
+		},
+		"[rust]": {
+			"editor.rulers": [
+				100
+			]
+		}
 	},
 	"extensions": [
 		"ms-python.python",
@@ -23,7 +34,9 @@
 		"github.copilot",
 		"github.vscode-pull-request-github",
 		"njpwerner.autodocstring",
-		"julialang.language-julia"
+		"julialang.language-julia",
+		"rust-lang.rust-analyzer",
+		"mutantdino.resourcemonitor"
 	],
 	"features": {
 		"github-cli": "latest"
