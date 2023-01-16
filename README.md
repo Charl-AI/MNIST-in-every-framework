@@ -14,18 +14,26 @@ to learn new languages. Are you a deep learning researcher who wants to learn a
 new language? Has PhD life turned your brain into mush that can only understand
 28*28 pixel handwritten characters? You've come to the right place!
 
-|                   | Implemented? | Run command: |
-|-------------------|-----------------------------|--------------------------|
-| PyTorch           | <ul><li>- [x] </li></ul>    | `python pytorch/main.py` |
-| PyTorch-Lightning | <ul><li>- [x] </li></ul>    | `python lightning/main.py` |
-| TensorFlow        | <ul><li>- [x] </li></ul>    | `python tensorflow/main.py` |
-| JAX + Haiku       | <ul><li>- [x] </li></ul>    | `python haiku/main.py` |
-| Julia             | <ul><li>- [ ] </li></ul>    | `N/A` |
-| Rust              | <ul><li>- [ ] </li></ul>    | `N/A` |
-| Haskell           | <ul><li>- [ ] </li></ul>    | `N/A` |
-| OCaml             | <ul><li>- [ ] </li></ul>    | `N/A` |
-| C                 | <ul><li>- [ ] </li></ul>    | `N/A` |
-| Assembly?!        | <ul><li>- [ ] </li></ul>    | `N/A` |
+|                   | Implemented?                | Run command:                | Data: | Training: | Network: | Autograd:
+|-------------------|-----------------------------|--------------------------   |-      |-          |-         |-           |
+| PyTorch           | <ul><li>- [x] </li></ul>    | `python pytorch/main.py`    | torchvision | Custom | torch.nn | torch |
+| PyTorch-Lightning | <ul><li>- [x] </li></ul>    | `python lightning/main.py`  | torchvision | pl.trainer | torch.nn| torch |
+| TensorFlow        | <ul><li>- [x] </li></ul>    | `python tensorflow/main.py` | tfds | Keras | Keras | tf |
+| JAX               | <ul><li>- [x] </li></ul>    | `python haiku/main.py`      | tfds | Custom | haiku | JAX |
+| Julia             | <ul><li>- [ ] </li></ul>    | `julia julia/main.jl`       | Custom | Custom | Flux | Zygote |
+| Rust              | <ul><li>- [ ] </li></ul>    | `cargo run`                 | Custom | ? | ? | ? |
+| Haskell           | <ul><li>- [ ] </li></ul>    | `N/A`                       | | | | |
+| OCaml             | <ul><li>- [ ] </li></ul>    | `N/A`                       | | | | |
+| C                 | <ul><li>- [ ] </li></ul>    | `N/A`                       | | | | |
+| Assembly?!        | <ul><li>- [ ] </li></ul>    | `N/A`                       | | | | |
+
+The table above shows the progress of each project. Making an MNIST classifier
+generally requires some code to do at least four things: load and read the
+files, define and manage network architecture and parameters, make a training
+loop and training steps, and compute gradients. I show roughly what each project
+does for each of these tasks in the table. You will notice that I have to do more
+custom stuff as I move down the list towards languages that are less popular for
+scientific computing and ML.
 
 
 ## Installation and Running
