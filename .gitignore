@@ -132,3 +132,8 @@ logs/
 outputs/
 trained_models/
 *-data/
+
+
+# Added by cargo
+
+/target

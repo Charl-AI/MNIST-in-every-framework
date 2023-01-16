@@ -1,0 +1,11 @@
+[package]
+name = "MNIST-in-every-framework"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "mnist_in_every_framework"
+path = "rust/main.rs"
+
+[dependencies]
+ndarray = { version = "0.15.0"}
