@@ -67,3 +67,9 @@ docker run --rm -it -v $(pwd)/outputs:/app/outputs mnist-in-every-framework <run
 ### Option 2: Use VSCode Remote Containers
 
 If you use VSCode with the remote containers extension, you can install the dependencies and open a VSCode development environment for this project by simply running `Remote Containers: Open folder in Container` from the command palette. You can then run any project you want by pasting the run command into the integrated terminal.
+
+### Option 3: Codespaces!
+
+(New as of Nov 2022: GitHub provides a free tier with 80 hours per month of compute.)
+
+You can open this repo **without any local installation** in a cloud-hosted 'codespace'. The dependencies will be automatically installed on the remote cloud machine, which you can access through your browser, VSCode, or even PyCharm. Simply start the codespace using the button in the GitHub UI. This is the easiest way to try out this project.
