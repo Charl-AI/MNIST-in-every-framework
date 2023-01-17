@@ -20,6 +20,7 @@ new language? Has PhD life turned your brain into mush that can only understand
 | PyTorch-Lightning | <ul><li>- [x] </li></ul>    | `python lightning/main.py`  | torchvision | pl.trainer | torch.nn| torch |
 | TensorFlow        | <ul><li>- [x] </li></ul>    | `python tensorflow/main.py` | tfds | Keras | Keras | tf |
 | JAX               | <ul><li>- [x] </li></ul>    | `python haiku/main.py`      | tfds | Custom | haiku | JAX |
+| NumPy             | <ul><li>- [ ] </li></ul>    | `python numpy/main.py`      | Custom | Custom | Custom | Custom |
 | Julia             | <ul><li>- [ ] </li></ul>    | `julia julia/main.jl`       | Custom | Custom | Flux | Zygote |
 | Rust              | <ul><li>- [ ] </li></ul>    | `cargo run`                 | Custom | ? | ? | ? |
 | Haskell           | <ul><li>- [ ] </li></ul>    | `N/A`                       | | | | |
