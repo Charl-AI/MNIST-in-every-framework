@@ -118,16 +118,15 @@ class MNISTLoader:
         self.dataset = dataset
         self.batch_size = batch_size
         self.shuffle = shuffle
-        # self.indices = np.arange(len(self.dataset))
+
+        self.indices = np.arange(len(self.dataset))
+        if self.shuffle:
+            np.random.shuffle(self.indices)
 
     def __len__(self) -> int:
         return math.ceil(len(self.dataset) / self.batch_size)
 
     def __iter__(self):
-        self.indices = np.arange(len(self.dataset))
-        if self.shuffle:
-            np.random.shuffle(self.indices)
-
         for i in range(0, len(self.dataset), self.batch_size):
             batch_indices = self.indices[i : i + self.batch_size]
             batch = [self.dataset[i] for i in batch_indices]
