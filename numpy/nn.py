@@ -70,10 +70,10 @@ class MLP:
         return w, b
 
     def set_params(self, w: List[np.ndarray], b: List[np.ndarray]) -> None:
-        for layer, w, b in zip(self.layers, w, b):  # type: ignore
+        for layer, weight, bias in zip(self.layers, w, b):
             if isinstance(layer, Linear):
-                layer.w = w  # type: ignore
-                layer.b = b  # type: ignore
+                layer.w = weight
+                layer.b = bias
 
     def gradients(self) -> Tuple[List[np.ndarray], List[np.ndarray]]:
         grad_w = []
