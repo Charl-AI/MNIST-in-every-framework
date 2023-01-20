@@ -17,7 +17,7 @@ new language? Has PhD life turned your brain into mush that can only understand
 |                   | Implemented?                | Run command:                | Data: | Training: | Network: | Autograd:
 |-------------------|-----------------------------|--------------------------   |-      |-          |-         |-           |
 | PyTorch           | <ul><li>- [x] </li></ul>    | `python pytorch/main.py`    | torchvision | Custom | torch.nn | torch |
-| PyTorch-Lightning | <ul><li>- [x] </li></ul>    | `python lightning/main.py`  | torchvision | pl.trainer | torch.nn| torch |
+| PyTorch-Lightning | <ul><li>- [x] </li></ul>    | `python lightning/main.py`  | torchvision | lightning | torch.nn| torch |
 | TensorFlow        | <ul><li>- [x] </li></ul>    | `python tensorflow/main.py` | tfds | Keras | Keras | tf |
 | JAX               | <ul><li>- [x] </li></ul>    | `python haiku/main.py`      | tfds | Custom | haiku | JAX |
 | NumPy             | <ul><li>- [ ] </li></ul>    | `python numpy/main.py`      | Custom | Custom | Custom | Custom |
