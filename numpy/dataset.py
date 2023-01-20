@@ -1,11 +1,13 @@
 """Python (w/ numpy) code for downloading, extracting, and reading MNIST data.
 We implement a miniature Pytorch-style dataset and dataloader too."""
 
+import copy
 import gzip
 import math
 import os
 import struct
 import urllib.request
+from typing import Tuple
 
 import numpy as np
 
@@ -92,6 +94,10 @@ def parse_labels(
     return data
 
 
+def one_hot_encode(x: np.ndarray, num_classes: int) -> np.ndarray:
+    return np.eye(num_classes)[x]
+
+
 class MNIST:
     """Basic Pytorch-style dataset for MNIST."""
 
@@ -102,7 +108,7 @@ class MNIST:
         self.labels = parse_labels(data_dir, train)
 
         self.images = np.reshape(self.images.astype(np.float32) / 255.0, (-1, 28 * 28))
-        self.labels = self.labels.astype(np.float32)
+        self.labels = one_hot_encode(self.labels, 10).astype(np.float32)
 
     def __len__(self):
         return len(self.images)
@@ -111,23 +117,48 @@ class MNIST:
         return self.images[idx], self.labels[idx]
 
 
+def create_train_val_split(ds: MNIST, train_split: float = 0.8) -> Tuple[MNIST, MNIST]:
+    """Splits MNIST dataset according to the split ratio."""
+    num_train = int(len(ds) * train_split)
+
+    train_ds = copy.deepcopy(ds)
+    val_ds = copy.deepcopy(ds)
+
+    train_ds.images = train_ds.images[:num_train]
+    train_ds.labels = train_ds.labels[:num_train]
+
+    val_ds.images = val_ds.images[num_train:]
+    val_ds.labels = val_ds.labels[num_train:]
+
+    return train_ds, val_ds
+
+
 class MNISTLoader:
     """Basic Pytorch-style dataloader for MNIST."""
 
-    def __init__(self, dataset: MNIST, batch_size: int, shuffle: bool = False):
+    def __init__(
+        self,
+        dataset: MNIST,
+        batch_size: int,
+        num_epochs: int,
+        shuffle: bool = False,
+    ):
         self.dataset = dataset
         self.batch_size = batch_size
         self.shuffle = shuffle
+        self.num_epochs = num_epochs
 
         self.indices = np.arange(len(self.dataset))
         if self.shuffle:
             np.random.shuffle(self.indices)
 
+        self.indices = np.repeat(self.indices, self.num_epochs)
+
     def __len__(self) -> int:
-        return math.ceil(len(self.dataset) / self.batch_size)
+        return math.ceil(len(self.dataset) / self.batch_size) * self.num_epochs
 
     def __iter__(self):
-        for i in range(0, len(self.dataset), self.batch_size):
+        for i in range(0, len(self.dataset) * self.num_epochs, self.batch_size):
             batch_indices = self.indices[i : i + self.batch_size]
             batch = [self.dataset[i] for i in batch_indices]
             images = np.stack([sample[0] for sample in batch])
