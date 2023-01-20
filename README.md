@@ -14,7 +14,7 @@ to learn new languages. Are you a deep learning researcher who wants to learn a
 new language? Has PhD life turned your brain into mush that can only understand
 28*28 pixel handwritten characters? You've come to the right place!
 
-|                   | Implemented?                | Run command:                | Data: | Training: | Network: | Autograd:
+|                   | Done?                | Run command:                | Data: | Training: | Network: | Autograd:
 |-------------------|-----------------------------|--------------------------   |-      |-          |-         |-           |
 | PyTorch           | <ul><li>- [x] </li></ul>    | `python pytorch/main.py`    | torchvision | Custom | torch.nn | torch |
 | PyTorch-Lightning | <ul><li>- [x] </li></ul>    | `python lightning/main.py`  | torchvision | lightning | torch.nn| torch |
